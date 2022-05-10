@@ -1,6 +1,5 @@
 import store from './store'
 
-// 1111111
 const microApps = [
   {
     name: 'sub-vue',
