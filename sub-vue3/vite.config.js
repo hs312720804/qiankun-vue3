@@ -45,7 +45,7 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import qiankun from 'vite-plugin-qiankun';
-// import { resolve  } from 'path';
+import { resolve  } from 'path';
 import { name } from './package.json'
 // const useDevMode = true
 
@@ -54,15 +54,19 @@ export default ({ mode }) => {
 
   console.log(__DEV__)
   return defineConfig({
-    // alias: {
-    //   '@': resolve('src'),
-    // },
-    
     plugins: [ 
       vue(),
       qiankun(name, {
         useDevMode: true
     })],
+    // alias: {
+    //   '@': resolve('src'),
+    // },
+    resolve: {
+      alias: [
+        { find: '@', replacement: resolve(__dirname, 'src') }
+      ]
+    },
     server: {
       port: 5001,
       origin: '//localhost:5001'

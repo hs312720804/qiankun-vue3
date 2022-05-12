@@ -5,6 +5,11 @@ import { createApp } from "vue";
 import App from './App.vue'
 // import routes from "./router";
 import { renderWithQiankun, qiankunWindow } from 'vite-plugin-qiankun/dist/helper';
+import router from '@/router'
+
+import ElementPlus from 'element-plus'
+import 'element-plus/theme-chalk/index.css'
+import '@/assets/global.styl'
 
 // let router = null;
 let instance = null;
@@ -36,6 +41,7 @@ function render(props = {}) {
   // });
 
   instance = createApp(App);
+  instance.use(router).use(ElementPlus, { size: 'small', zIndex: 3000 })
   // instance.use(router);
   instance.mount(container ? container.querySelector("#app") : "#app");
 }

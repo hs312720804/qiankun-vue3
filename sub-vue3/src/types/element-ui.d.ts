@@ -1,0 +1,1 @@
+type ELLoadingInstance = import('element-plus/lib/el-loading/src/loading.type').ILoadingInstance
