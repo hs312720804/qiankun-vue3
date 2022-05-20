@@ -1,5 +1,5 @@
 <script>
-import { toBtnConfig } from '@/utlis/comm'
+import { toBtnConfig } from '@/utils/comm'
 export default {
   name: 'ListActions',
   props: {

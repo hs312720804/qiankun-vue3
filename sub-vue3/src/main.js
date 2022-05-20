@@ -6,29 +6,38 @@ import App from './App.vue'
 // import routes from "./router";
 import { renderWithQiankun, qiankunWindow } from 'vite-plugin-qiankun/dist/helper';
 import router from '@/router'
+import { store } from '@/store'
 
 import ElementPlus from 'element-plus'
 import 'element-plus/theme-chalk/index.css'
+
+// 如果您正在使用CDN引入，请删除下面一行。
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import '@/assets/global.styl'
 
-// let router = null;
-let instance = null;
+import adminToolkitPlus from '@ccprivate/admin-toolkit-plus'
+import '../node_modules/@ccprivate/admin-toolkit-plus/dist/style.css'
 
+// import constants from '@/utils/consts.js'
+
+// let router = null;
+let app = null;
 renderWithQiankun({
   mount(props) {
+    
     // storeTest(props);/
     render(props);
-    // instance.config.globalProperties.$onGlobalStateChange =
+    // app.config.globalProperties.$onGlobalStateChange =
     //   props.onGlobalStateChange;
-    // instance.config.globalProperties.$setGlobalState = props.setGlobalState;
+    // app.config.globalProperties.$setGlobalState = props.setGlobalState;
   },
   bootstrap() {
     console.log("%c ", "color: green;", "sub-vite2-vue3 app bootstraped");
   },
   unmount(props) {
-    instance.unmount();
-    instance._container.innerHTML = "";
-    instance = null;
+    app.unmount();
+    app._container.innerHTML = "";
+    app = null;
     // router = null;
   },
 });
@@ -40,10 +49,20 @@ function render(props = {}) {
   //   routes
   // });
 
-  instance = createApp(App);
-  instance.use(router).use(ElementPlus, { size: 'small', zIndex: 3000 })
-  // instance.use(router);
-  instance.mount(container ? container.querySelector("#app") : "#app");
+  app = createApp(App); // 初始化vue实例
+
+  // 统一注册 element-plus Icon图标
+  for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component)
+  }
+
+  // app.config.globalProperties.$constants = constants
+  
+  app.use(store).use(router).use(ElementPlus, { zIndex: 3000 }).use(adminToolkitPlus)
+  // app.use(router);
+  app.mount(container ? container.querySelector("#app") : "#app");
+
+  // 全局属性
 }
 
 // function storeTest(props) {

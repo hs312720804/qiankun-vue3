@@ -49,16 +49,28 @@ import { resolve  } from 'path';
 import { name } from './package.json'
 // const useDevMode = true
 
+const BACKEND = process.env.BACKEND || '172.20.151.197:9080'
+const PORT = process.env.PORT || '5001'
+const HOST = process.env.HOST || '127.0.0.1'
+
 export default ({ mode }) => {
   const __DEV__ = mode === 'development'
 
-  console.log(__DEV__)
   return defineConfig({
+    define: {
+      'process.env': {
+        'VUE_APP_PROJECT_ID': '11',
+        'VUE_APP_PROJECT_CODE': 'filem_admin',
+        'VUE_APP_PROJECT_NAME': '静态资源管理',
+        'VUE_APP_API_PREFIX': 'violet-api',
+      }
+    },
     plugins: [ 
       vue(),
       qiankun(name, {
         useDevMode: true
     })],
+    
     // alias: {
     //   '@': resolve('src'),
     // },
@@ -68,8 +80,15 @@ export default ({ mode }) => {
       ]
     },
     server: {
-      port: 5001,
-      origin: '//localhost:5001'
+      host: HOST,
+      port: Number(PORT),
+      // origin: '//127.0.0.1:5001',
+      proxy: {
+        '/violet-api': {
+          target: 'http://'+ BACKEND,
+          rewrite: path => path.replace(/^\/violet-api/, '/')
+        }
+      }
     },
     // base: 'http://127.0.0.1:5001/',
     base: __DEV__ ? '/' : 'http://127.0.0.1:5001/',

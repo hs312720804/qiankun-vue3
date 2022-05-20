@@ -5,19 +5,19 @@
  */
  import fetch from './fetch'
  import { ElMessage } from 'element-plus'
- 
- export function loginService (data) {
+
+ export function loginService (data: any) {
    return fetch({
      method: 'post',
      url: 'auth/oauth/token',
      data,
      isJSON: false
-   }).then(({ data }) => {
+   }).then(({ data }: any) => {
      return data
    })
  }
  // sunflower
- export function getMenusService (params) {
+ export function getMenusService (params : any) {
    return fetch({
      method: 'get',
      url: 'auth/menu/tenantMenus',
@@ -25,11 +25,11 @@
        ver: 1 // 为了兼容旧系统，新系统需要添加ver属性，值 = any
      },
      params
-   }).then(({ data }) => {
+   }).then(({ data }: any) => {
      return data
    })
  }
- export function getMenusDetail (params) {
+ export function getMenusDetail (params: any) {
    return fetch({
      method: 'get',
      url: 'auth/menu/detail',
@@ -38,14 +38,14 @@
  }
  
  class BaseListFetchParamsError extends Error {
-   constructor (msg) {
+   constructor (msg: string) {
      super(msg)
      this.code = -1
      this.name = 'BaseListFetchParamsError'
    }
  }
  
- export function genApiService (apiJson = {}, fetchConfig = {}) {
+ export function genApiService (apiJson: any = {}, fetchConfig = {}) {
    const serviceMap = {}
    Object.keys(apiJson).forEach(key => {
      const [url, method] = apiJson[key]

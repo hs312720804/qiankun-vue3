@@ -10,8 +10,10 @@
     "start": "vite build && npm run preview"
   },
   "dependencies": {
-    "@ccprivate/admin-toolkit": "^1.2.3",
+    "@ccprivate/admin-toolkit-plus": "^1.0.2",
     "@ccprivate/saas-template-utils": "^0.2.6-build.2",
+    "@element-plus/icons-vue": "^1.1.4",
+    "axios": "^0.27.2",
     "element-plus": "^2.2.0",
     "qs": "^6.10.3",
     "vue": "^3.2.25",

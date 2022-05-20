@@ -1,38 +1,50 @@
-import CellEdit from '../../components/CellEdit.vue'
-import { toBtnConfig } from '@/utlis/comm'
+// import CellEdit from '../../components/CellEdit.vue'
+import { toBtnConfig } from '@/utils/comm.ts'
 
 function commonOperation (arr) {
   // 不与权限关联时用例：["编辑:Page:Edit:edit","查看:Page:Edit:read","删除:Todo:rowDelete","自定义Page:Page:AA","DialogPage:Dialog:AAADialog"]
   // 与权限关联时用例：["编辑:Page:Edit:update:edit","查看:Page:Edit:detail:read","删除:Todo:rowDelete:delete","自定义Page:Page:AA","DialogPage:Dialog:AAADialog"]
   return (h, { row }) => {
+    
     return arr.map((item, index) => {
       const option = item.split(':')
+      debugger
       const { label, type, methodName, rule, powerCode } = toBtnConfig(item)
       // if (this.resourceAccess.indexOf(option[3]) > -1) { // 权限是否存在判断
       // eslint-disable-next-line no-eval
       if (rule && eval(rule)) return ''
       return h(
-        'el-button', {
-          props: {
-            type: 'text',
-            size: 'mini'
-          },
-          directives: [{
-            name: 'permission',
-            value: powerCode
-          }],
-          on: {
-            click: () => {
-              if (option[1] === 'Todo') {
-                this.actionTodo({ row, option })
-              } else {
-                this.$emit('option', {
-                  row,
-                  option
-                })
-              }
-            }
-          }
+        'ElButton', {
+          type: 'text',
+          size: 'mini',
+          // directives: [{
+          //   name: 'permission',
+          //   value: powerCode
+          // }],
+          // onClick: () => {
+          //   if (option[1] === 'Todo') {
+          //     toDoActions({ row, option })
+          //     // this[option[2]](row)
+          //   } else {
+          //     optionActions({ row, option })
+          //     // this.$emit('option', {
+          //     //   row,
+          //     //   option
+          //     // })
+          //   }
+          // }
+          // on: {
+          //   click: () => {
+          //     if (option[1] === 'Todo') {
+          //       this.actionTodo({ row, option })
+          //     } else {
+          //       this.$emit('option', {
+          //         row,
+          //         option
+          //       })
+          //     }
+          //   }
+          // }
         },
         label
       )
@@ -57,28 +69,26 @@ function handleOperation (arr) {
       // eslint-disable-next-line no-eval
       if (rule && eval(rule)) return ''
       return h(
-        'el-button', {
-          props: {
-            type: 'text',
-            size: 'mini'
-          },
-          directives: [{
-            name: 'permission',
-            value: powerCode
-          }],
-          on: {
-            click: () => {
-              if (type === 'Todo') {
-                // this[methodName](row)
-                this.actionTodo({ row, option })
-              } else {
-                this.$emit('option', {
-                  row,
-                  option
-                })
-              }
-            }
-          }
+        'ElButton', {
+          type: 'text',
+          size: 'mini',
+          // directives: [{
+          //   name: 'permission',
+          //   value: powerCode
+          // }],
+          // on: {
+          //   click: () => {
+          //     if (type === 'Todo') {
+          //       // this[methodName](row)
+          //       this.actionTodo({ row, option })
+          //     } else {
+          //       this.$emit('option', {
+          //         row,
+          //         option
+          //       })
+          //     }
+          //   }
+          // }
         },
         label
       )
@@ -95,30 +105,30 @@ function stringHidden (prop, frontLen, endLen) {
     )
   }
 }
-function cellEdit (prop) {
-  return (h, { row }) => {
-    return h(
-      CellEdit,
-      {
-        props: {
-          initValue: row[prop]
-        },
-        on: {
-          blur: (val) => {
-            console.log(val)
-          }
-        }
-      }
+// function cellEdit (prop) {
+//   return (h, { row }) => {
+//     return h(
+//       CellEdit,
+//       {
+//         props: {
+//           initValue: row[prop]
+//         },
+//         on: {
+//           blur: (val) => {
+//             console.log(val)
+//           }
+//         }
+//       }
 
-    )
-  }
-}
+//     )
+//   }
+// }
 // 数据埋点事件管理列表操作
 
 const renderMethods = {
   handleOperation,
   stringHidden,
-  cellEdit,
+  // cellEdit,
   commonOperation
 }
 // 方法名:说明

@@ -25,16 +25,22 @@
   </p>
 </template>
 
-<script setup>
-import { ref } from 'vue'
+<script>
+import { ref, defineComponent } from 'vue'
+// defineProps({
+//   msg: {
+//     type: String,
+//     default: 'defaultValue'
+//   }
+// })
 
-defineProps({
-  msg: String
+// const count = ref(0)
+
+
+export default defineComponent({
+  setup () {
+  }
 })
-
-const count = ref(0)
-
-
 </script>
 
 <style scoped>
