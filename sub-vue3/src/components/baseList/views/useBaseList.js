@@ -1,9 +1,9 @@
-import { ref, reactive, computed, nextTick, watch } from 'vue'
+import { ref, reactive, computed, nextTick, watch, h } from 'vue'
 import { evil } from '@/utils/consts.js'
 import { ElTag, ElImage } from 'element-plus'
 import { renderMethods } from './renderMethods'
 
-export default function useUserRepositories(menu, primaryKey, table, handleResource) {
+export default function useUserRepositories(menu, primaryKey, table, handleResource, fetchData) {
 
 
   // const repositories = ref([])
@@ -51,7 +51,7 @@ export default function useUserRepositories(menu, primaryKey, table, handleResou
       }
 
       if (item.inputType === 'enum' && (!('render' in item) || !item.render)) {
-        header[key].render = function (h, { row }) {
+        header[key].render = function ({ row }) {
           const optionsText = {}
           const tagType = ['', 'success', 'info', 'warning', 'danger', 'danger', 'warning', 'success', 'info']
           item.options.forEach(option => {
@@ -72,8 +72,8 @@ export default function useUserRepositories(menu, primaryKey, table, handleResou
             {
               effect: 'plain',
               style: {
-                border: '1px solid ' + (borderColor || color || '#909399'), // 设有设置颜色用默认颜色，默认颜色用完用灰色
-                color: color || '#909399'
+                border: '1px solid ' + ('#909399'), // 设有设置颜色用默认颜色，默认颜色用完用灰色
+                color: '#909399'
               }
             },
             optionsText[key]
@@ -82,7 +82,7 @@ export default function useUserRepositories(menu, primaryKey, table, handleResou
         }
       }
       if (item.inputType === 'image' && (!('render' in item) || !item.render)) {
-        header[key].render = function (h, { row }) {
+        header[key].render = function ({ row }) {
           return h(
             ElImage,
             // {
@@ -106,6 +106,7 @@ export default function useUserRepositories(menu, primaryKey, table, handleResou
         }
       }
     })
+    console.log('header===========', header)
     return header
   })
 

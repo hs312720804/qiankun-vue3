@@ -65,8 +65,20 @@
   // const globalProperties = instance.appContext.config.globalProperties
 
   const { menuId, menuDetailMethod, fetchMethod, handleResource } = toRefs(props) as any //  获取 props 传参
+
+  let isShowList = ref(true)
+  let id = ref()
+  let mode = ref('create')
+  let template = ref('')
+  let title = ref('')
+  let row = ref('')
+  let dialogVisible = ref(false)
+  let optionType = ref('')
+  let selected = ref([])
+  let dialogChang = ref(false) // 弹窗数据改
   let menuDetail = ref()
-  let primaryKey = ref<string>('')
+  let primaryKey = ref<string>('')// 主键
+
   const disposalField = (fields, useType) => {
     return fields.filter((item) => {
       if ('use' in item && item.use.length > 0) {
@@ -82,8 +94,6 @@
     })
   }
   provide('primaryKey', primaryKey)
-  console.log('primaryKey===', primaryKey)
-  
   provide('disposalField', disposalField)
   provide('fetchMethod', fetchMethod)
   provide('handleResource', handleResource)

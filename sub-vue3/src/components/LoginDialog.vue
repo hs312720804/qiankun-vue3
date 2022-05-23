@@ -1,5 +1,4 @@
 <template>
-  {{dialogVisible}}
   <el-dialog
     v-model="dialogVisible"
     :close-on-click-modal="false"

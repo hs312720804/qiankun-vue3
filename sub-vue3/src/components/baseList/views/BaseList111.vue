@@ -86,7 +86,6 @@
   })
 
   let api = computed(() => {
-    debugger
     console.log('menu.value.apiJson====', menu.value)
     return evil(menu.value.apiJson)
   })

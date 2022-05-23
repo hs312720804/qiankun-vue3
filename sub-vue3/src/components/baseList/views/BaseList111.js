@@ -1,3 +1,4 @@
+import {}
 import { renderMethods } from './renderMethods'
 export default {
   inject: ['baseIndex'],
@@ -58,7 +59,7 @@ export default {
               tags = row[item.prop].split(',')
             }
             const tagVNodes = tags.map(key => h(
-              'el-tag',
+              'ElTag',
               {
                 style: { margin: '5px' },
                 props: {
@@ -73,7 +74,7 @@ export default {
         if (item.inputType === 'image' && (!('render' in item) || !item.render)) {
           header[key].render = function (h, { row }) {
             return h(
-              'el-image',
+              'ElImage',
               {
                 attrs: {
                   src: row[item.prop],

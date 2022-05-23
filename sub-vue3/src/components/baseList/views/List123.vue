@@ -2,7 +2,7 @@
   {{repositoriesMatchingSearchQuery}} 1----------
 </template>
 <script lang="ts">
-  import useRepositoryNameSearch from './useRepositoryNameSearch1.js'
+  import useBaseList from './useBaseList1.js'
   import { toRefs, ref } from 'vue'
 
   export default {
@@ -19,7 +19,7 @@
       const {
         searchQuery,
         repositoriesMatchingSearchQuery
-      } = useRepositoryNameSearch(a)
+      } = useBaseList(a)
 
       console.log('repositoriesMatchingSearchQuery=======', repositoriesMatchingSearchQuery)
       return {

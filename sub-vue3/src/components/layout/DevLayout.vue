@@ -6,7 +6,6 @@
       <div class="dev_setting">
         <el-icon :size="20" class="icon" title="预览" @click="handleView"><View /></el-icon>
         <el-icon :size="20" class="icon" title="重置" @click="handleLogin()"><Refresh /></el-icon>
-        {{isShowLogin}}
         <span>{{userLoginName}}</span>
       </div>
     </el-header>

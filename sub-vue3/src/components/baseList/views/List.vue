@@ -1,48 +1,41 @@
 <template>
-  <helloword ref="hello"></helloword>
-  <button @click="helloClick">{{ primaryKey }}</button>
-  <!-- <BaseList ref="baseList"></BaseList> -->
-  <button @click="baseListClick" >baseListClick</button>
-  <c-card ref="contentCard" class="content">
-    <!-- 111111111111111- {{showList}}
-    111111111111111- {{pagination}}
-    111111111111111- {{table}} -->
-    <!-- {{table}} -->
-    <!-- {{pagination}} -->
-    <!-- <div style="border: 1px solid red">{{tableHeader}}</div>
-    {{table.data}} -->
-    <c-content-wrapper
-      v-show="showList"
-      :pagination="pagination"
-      @filter-change="handleFilterChange"
-    >
-      <c-table
-        :key="$route.path"
-        v-if="tableType==='list'"
-        :props="table.props"
-        :header="tableHeader"
-        :data="table.data"
-        :selected="table.selected"
-        :selection-type="selectionType"
-        @row-selection-add="handleRowSelectionAdd"
-        @row-selection-remove="handleRowSelectionRemove"
-        @all-row-selection-change="handleAllRowSelectionChange"
-      ></c-table>
-
-      <c-table-tree
-        v-if="tableType==='tree'"
-        :props="table.props"
-        :header="tableHeader"
-        :data="table.data"
-        :selected="table.selected"
-        :selection-type="selectionType"
-        @row-selection-add="handleRowSelectionAdd"
-        @row-selection-remove="handleRowSelectionRemove"
-        @all-row-selection-change="handleAllRowSelectionChange"
+  <!-- <helloword ref="hello"></helloword> -->
+  <!-- <button @click="helloClick">{{ primaryKey }}</button> -->
+  <!-- <button @click="baseListClick" >baseListClick</button> -->
+  <div>
+    <c-card ref="contentCard" class="content">
+      <!-- 111111111111111- {{showList}}
+      111111111111111- {{pagination}}
+      111111111111111- {{table}} -->
+      <!-- {{table}} -->
+      <!-- {{pagination}} -->
+      <!-- <div style="border: 1px solid red">{{tableHeader}}</div> -->
+      <!-- <div style="border: 1px solid red">{{table.data}}</div> -->
+      <!-- <div style="border: 1px solid red">{{table.props}}</div> -->
+      <!-- <div style="border: 1px solid red">{{pagination}}</div> -->
+      <!-- <div style="border: 1px solid red">{{ showList }}</div> -->
+      <c-content-wrapper
+        v-show="showList"
+        :pagination="pagination"
+        @filter-change="handleFilterChange"
       >
-      ppppppppppppp</c-table-tree>
-    </c-content-wrapper>
-  </c-card>
+        <c-table
+          :key="$route.path"
+          :props="table.props"
+          :header="tableHeader"
+          :data="table.data"
+          :selected="table.selected"
+          :selection-type="selectionType"
+          @row-selection-add="handleRowSelectionAdd"
+          @row-selection-remove="handleRowSelectionRemove"
+          @all-row-selection-change="handleAllRowSelectionChange"
+        ></c-table>
+  
+      </c-content-wrapper>
+    </c-card>
+
+  </div>
+
   
 </template>
 <script setup lang="ts">
@@ -52,7 +45,7 @@
   import {baseListFetch} from '@/utils/listFetch.js'
   import Index from './Index.vue'
   import helloword from './HelloWorld.vue'
-  import useRepositoryNameSearch from './useRepositoryNameSearch.js'
+  import useBaseList from './useBaseList.js'
   import { ElNotification } from 'element-plus'
   import _ from 'lodash'
   // const hello = ref(null)
@@ -140,7 +133,7 @@
     clearSelected,
     handleFilterChange,
     parseFilter
-  } = useRepositoryNameSearch(menu, primaryKey, table, handleResource)
+  } = useBaseList(menu, primaryKey, table, handleResource, fetchData)
 
   console.log('listDataMap', listDataMap)
   /**
@@ -199,10 +192,6 @@
   // }
   
 
-  
-
-  
-
   function pageSetting (data) {
     let params = {
       page: pagination.currentPage,
@@ -221,7 +210,15 @@
       actions.value = 'actions' in extra ? evil(extra.actions) : []
     }
   }
-
+  function fetchData () {
+    let params = {
+      page: pagination.currentPage,
+      pageSize: pagination.pageSize
+    }
+    if (api) {
+      getListData(api.value.list, { ...filter, ...params })
+    }
+  }
   function getListData (url:string, params) {
     // const filter = this.parseFilter()
     return new Promise((resolve, reject) => {
@@ -234,13 +231,11 @@
         fetchMethod: fetchMethod.value
       }).then(({ data }) => {
         console.log('data===', data)
-        debugger
         let listData = listDataMap.value ? _.get(data, listDataMap.value) : data // 获取映射数据
         if (listData.list.length < 1 && listData.total > 0) {
           pagination.currentPage = pagination.currentPage - 1
           fetchData()
         } else {
-          debugger
           // resolve(data.pageInfo)
           table.data = listData.list
           pagination.total = listData.total
@@ -257,15 +252,7 @@
     })
   }
 
-  function fetchData () {
-    let params = {
-      page: pagination.currentPage,
-      pageSize: pagination.pageSize
-    }
-    if (api) {
-      getListData(api.value.list, { ...filter, ...params })
-    }
-  }
+  
 
   
 

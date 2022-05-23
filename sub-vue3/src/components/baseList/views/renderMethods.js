@@ -1,14 +1,13 @@
 // import CellEdit from '../../components/CellEdit.vue'
+import { h } from 'vue'
 import { toBtnConfig } from '@/utils/comm.ts'
 
 function commonOperation (arr) {
   // 不与权限关联时用例：["编辑:Page:Edit:edit","查看:Page:Edit:read","删除:Todo:rowDelete","自定义Page:Page:AA","DialogPage:Dialog:AAADialog"]
   // 与权限关联时用例：["编辑:Page:Edit:update:edit","查看:Page:Edit:detail:read","删除:Todo:rowDelete:delete","自定义Page:Page:AA","DialogPage:Dialog:AAADialog"]
-  return (h, { row }) => {
-    
+  return ({ row }) => {
     return arr.map((item, index) => {
       const option = item.split(':')
-      debugger
       const { label, type, methodName, rule, powerCode } = toBtnConfig(item)
       // if (this.resourceAccess.indexOf(option[3]) > -1) { // 权限是否存在判断
       // eslint-disable-next-line no-eval
@@ -61,7 +60,7 @@ function commonOperation (arr) {
 function handleOperation (arr) {
   // 不与权限关联时用例：["编辑:Page:Edit:edit","查看:Page:Edit:read","删除:Todo:rowDelete","自定义Page:Page:AA","DialogPage:Dialog:AAADialog"]
   // 与权限关联时用例：["编辑:Page:Edit:update:edit","查看:Page:Edit:detail:read","删除:Todo:rowDelete:delete","自定义Page:Page:AA","DialogPage:Dialog:AAADialog"]
-  return (h, { row }) => {
+  return ({ row }) => {
     return arr.map((item, index) => {
       const option = item.split(':')
       const { label, type, methodName, rule, powerCode } = toBtnConfig(item)
@@ -97,7 +96,7 @@ function handleOperation (arr) {
   }
 }
 function stringHidden (prop, frontLen, endLen) {
-  return (h, { row }) => {
+  return ({ row }) => {
     return h(
       'span',
       {},

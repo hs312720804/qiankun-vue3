@@ -1,7 +1,7 @@
 
 import { ref, computed } from 'vue'
 
-export default function useRepositoryNameSearch(repositories) {
+export default function useBaseList(repositories) {
   const searchQuery = ref('')
   const repositoriesMatchingSearchQuery = computed(() => {
     return repositories.value
