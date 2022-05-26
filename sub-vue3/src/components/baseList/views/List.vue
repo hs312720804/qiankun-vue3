@@ -1,24 +1,63 @@
 <template>
-  <!-- <helloword ref="hello"></helloword> -->
-  <!-- <button @click="helloClick">{{ primaryKey }}</button> -->
-  <!-- <button @click="baseListClick" >baseListClick</button> -->
   <div>
     <c-card ref="contentCard" class="content">
-      <!-- 111111111111111- {{showList}}
-      111111111111111- {{pagination}}
-      111111111111111- {{table}} -->
-      <!-- {{table}} -->
-      <!-- {{pagination}} -->
       <!-- <div style="border: 1px solid red">{{tableHeader}}</div> -->
       <!-- <div style="border: 1px solid red">{{table.data}}</div> -->
       <!-- <div style="border: 1px solid red">{{table.props}}</div> -->
       <!-- <div style="border: 1px solid red">{{pagination}}</div> -->
       <!-- <div style="border: 1px solid red">{{ showList }}</div> -->
+      <div style="border: 1px solid red">{{ actions }}</div>
+      <div style="border: 1px solid red">{{ actionTodo }}</div>
       <c-content-wrapper
         v-show="showList"
         :pagination="pagination"
         @filter-change="handleFilterChange"
       >
+        <div class="list-option clearfix">
+          <div class="action-list">
+            <Actions
+              :selected="table.selected"
+              :actions="actions"
+              :rows="table.data"
+              :resource="resource"
+              @action="actionOption"
+              @todo="actionTodo"
+            ></Actions>
+          </div>
+          <!-- {{ filterFields }}
+          {{ !filterExpand }} -->
+          <template v-if="filterFields.length > 0">
+            <c-list-filter
+              v-if="!filterExpand"
+              ref="expandForm"
+              :options="filterFields"
+              :length="3"
+              :form-data="filter"
+              :is-expand="filterExpand"
+              :button-text="buttonText"
+              :hidden-expand-button="filterFields.length <= 3"
+              @filter="handleSearch"
+              @reset="handleResetSearch"
+              @filter-expand="handlefilterExpand"
+            >
+            </c-list-filter>
+          </template>
+        </div>
+        <div class="filter-expand">
+          <c-list-filter
+            v-if="filterExpand"
+            ref="expandForm"
+            :options="filterFields"
+            :form-data="filter"
+            :is-expand="filterExpand"
+            :button-text="buttonText"
+            @filter="handleSearch"
+            @reset="handleResetSearch"
+            @filter-expand="handlefilterExpand"
+          >
+          </c-list-filter>
+        </div>
+        
         <c-table
           :key="$route.path"
           :props="table.props"
@@ -48,6 +87,8 @@
   import useBaseList from './useBaseList.js'
   import { ElNotification } from 'element-plus'
   import _ from 'lodash'
+  import Actions from './Actions.vue'
+  import listActions from './mixin/listActions'
   // const hello = ref(null)
   // const helloClick = () => {
   //   console.log(hello.value) // 123456
@@ -60,6 +101,8 @@
 
   
   // -------初始化---------start
+  
+  const emits = defineEmits(['action'])
   const props = defineProps({
     menuId: {
       type: Number
@@ -78,13 +121,14 @@
   let filterFields = ref([])
   let filter = reactive({})
   let isExpand = ref(false)
+  let filterExpand = ref(false)
   let filterType = ref<string>('')
   let filterTypeLabel = ref<string>('')
   const buttonText = reactive({
-    query: '1',
-    reset: '1',
-    expand: '1',
-    packUp: '1',
+    query: '查询',
+    reset: '重置',
+    expand: '展开',
+    packUp: '收起',
   })
 
   let table = reactive({
@@ -141,6 +185,7 @@
    * @param options = this.filterFields
    * */
   const handleOptions = async (options) => {
+    console.log('options==', options)
     let apiOptions = []
     for (let i = 0; i < options.length; i++) {
       const item = options[i]
@@ -167,6 +212,7 @@
         }
       }
     }
+    console.log('apiOptions===', apiOptions)
     for (let i = 0; i < apiOptions.length; i++) {
       const option = apiOptions[i]
       const newOptions = []
@@ -177,7 +223,7 @@
           item
         })
       })
-      this.filterFields[option.resourceIndex].options = newOptions
+      filterFields[option.resourceIndex].options = newOptions
     }
   }
 
@@ -199,9 +245,9 @@
     }
     if (data.fieldsJson) {
       const fields = evil(data.fieldsJson)
-      let filterFields = disposalField(fields, 2)
+      filterFields = disposalField(fields, 2) // 过滤出查询字段  "use": [2]
       handleOptions(filterFields)
-      table.header = disposalField(fields, 1)
+      table.header = disposalField(fields, 1)  // 过滤出表格展示字段  "use": [1]
       table.header.length > 0 ? showList = true : showInfo = true
       getListData(api.value.list, params)
     }
@@ -251,6 +297,62 @@
       })
     })
   }
+  // 自定义方法：主要是批量删除、删除、编辑等 在当前页面就能实现的功能
+  function actionTodo (msg) {
+      const { row, option } = msg
+      const actions = { ...handleResource.todo, ...listActions.methods } // 合并传入的Todo
+      Object.keys(actions).forEach(key => {
+        this[key] = actions[key]
+      })
+      const operate = option[2]
+      if (operate.indexOf('(') > -1) { // 判断是否有参数
+        const arg = operate.slice(operate.indexOf('(') + 1, operate.indexOf(')'))
+        const fun = operate.slice(0, operate.indexOf('('))
+        if (this[fun]) {
+          this[fun]({ arg, row, option })
+        } else {
+          this.$message.error('请正确设置操作方法或者联系开发人员')
+        }
+      } else {
+        if (this[option[2]]) {
+          this[option[2]](msg)
+        } else {
+          this.$message.error('请正确设置操作方法或者联系开发人员')
+        }
+      }
+    }
+  // 自定义方法：主要是页面跳转、弹窗展开等需要在 Index 页面实现的功能
+  const optionActions: COptionActions<BaseListRow> = function (data) {
+    emits('action', data)
+  }
+
+  function handlefilterExpand (msg) {
+    filterExpand = msg
+  }
+  function handleExpand (val) {
+    isExpand = val
+  }
+  function handleFilterQuery (value) {
+    filter = value
+    handleFilterChange('query')
+  }
+  function hancleClearFilter () {
+    filter = {}
+  }
+  function handleResetSearch () {
+    Object.keys(filter).forEach(key => {
+      filter[key] = ''
+    })
+    handleSearch()
+  }
+  function handleSearch () {
+    let params = {
+      page: pagination.currentPage,
+      pageSize: pagination.pageSize
+    }
+    getListData(api.list, { ...filter, ...params })
+  }
+
 
   
 

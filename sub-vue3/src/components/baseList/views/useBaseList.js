@@ -39,7 +39,8 @@ export default function useUserRepositories(menu, primaryKey, table, handleResou
       if (typeof item.render === 'string') {
         // 如果是新的按钮生成逻辑，则走 commonOperation 方法
         if (item.btnConfig) {
-          header[key].render = renderMethodsUtils.value.commonOperation.call(this, item.btnConfig)
+          // header[key].render = renderMethodsUtils.value.commonOperation(item.btnConfig, toDoActions, optionActions)
+          header[key].render = renderMethodsUtils.value.commonOperation(item.btnConfig)
         } else if (item.render) {
           const _this = this // eval 中会使用 _this 这个变量，不能删除
           Object.keys(renderMethodsUtils).forEach(key => {
@@ -61,7 +62,7 @@ export default function useUserRepositories(menu, primaryKey, table, handleResou
           if (typeof row[item.prop] === 'string') {
             tags = row[item.prop].split(',')
           }
-          const tagVNodes = tags.map(key => h(
+          const tagVNodes = tags.map(value => h(
             ElTag,
             // {
             //   style: { margin: '5px' },
@@ -71,12 +72,15 @@ export default function useUserRepositories(menu, primaryKey, table, handleResou
             // },
             {
               effect: 'plain',
+              type: tagType[value] || '',
               style: {
-                border: '1px solid ' + ('#909399'), // 设有设置颜色用默认颜色，默认颜色用完用灰色
-                color: '#909399'
-              }
+                margin: '5px',
+                // border: '1px solid ' + (borderColor || color || '#909399'), // 设有设置颜色用默认颜色，默认颜色用完用灰色
+                // color: '#909399',
+                // color: color || '#909399',
+              },
             },
-            optionsText[key]
+            optionsText[value]
           ))
           return h('div', { style: { lineHeight: '32px' } }, tagVNodes)
         }
@@ -106,7 +110,6 @@ export default function useUserRepositories(menu, primaryKey, table, handleResou
         }
       }
     })
-    console.log('header===========', header)
     return header
   })
 

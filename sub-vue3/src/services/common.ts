@@ -17,25 +17,25 @@
    })
  }
  // sunflower
- export function getMenusService (params : any) {
-   return fetch({
-     method: 'get',
-     url: 'auth/menu/tenantMenus',
-     headers: {
-       ver: 1 // 为了兼容旧系统，新系统需要添加ver属性，值 = any
-     },
-     params
-   }).then(({ data }: any) => {
-     return data
-   })
- }
- export function getMenusDetail (params: any) {
-   return fetch({
-     method: 'get',
-     url: 'auth/menu/detail',
-     params
-   })
- }
+//  export function getMenusService (params : any) {
+//    return fetch({
+//      method: 'get',
+//      url: 'auth/menu/tenantMenus',
+//      headers: {
+//        ver: 1 // 为了兼容旧系统，新系统需要添加ver属性，值 = any
+//      },
+//      params
+//    }).then(({ data }: any) => {
+//      return data
+//    })
+//  }
+//  export function getMenusDetail (params: any) {
+//    return fetch({
+//      method: 'get',
+//      url: 'auth/menu/detail',
+//      params
+//    })
+//  }
  
  class BaseListFetchParamsError extends Error {
    constructor (msg: string) {

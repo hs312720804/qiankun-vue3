@@ -19,7 +19,7 @@
   // import todo from './todo'
   // import renderMethods from './renderMethods'
   import fetch from '@/services/fetch'
-  import { getMenusDetail } from '@/services/common'
+  import { getMenusDetail } from '@/services/menu'
   import { reactive } from 'vue'
   defineProps({
     menuId: {

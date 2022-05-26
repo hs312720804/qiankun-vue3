@@ -1,6 +1,7 @@
-<script>
-import { toBtnConfig } from '@/utils/comm'
-export default {
+<script lang="ts">
+import { ElButton, ElButtonGroup } from 'element-plus'
+import { defineComponent, PropType, h, resolveDirective, withDirectives, Directive } from 'vue'
+export default defineComponent({
   name: 'ListActions',
   props: {
     resource: {
@@ -8,60 +9,44 @@ export default {
       default: ''
     },
     actions: {
-      type: Array,
+      type: Array as PropType<CButtonAction[]>,
       default: () => {
         return []
       }
     }
   },
-  data () {
-    return {}
+  emits: {
+    todo: (option: CButtonActionList) => true,
+    action: ({ option }: { option: CButtonActionList; }) => true
   },
-  computed: {
-    selectedRow () {
-      return this.rows.filter((item, index) => {
-        const b = this.selected.some((select, key) => {
-          return select === index
-        })
-        if (b) {
-          return item
-        }
-      })
-    }
-  },
-  methods: {},
-  render (createElement) {
+  render () {
     // let arr = ["新建:Page:Edit:add:edit","删除:Todo:batchDelete:delete","刷新:Todo:handleRefresh:select"]
-    const h = createElement
     const buttons = this.actions.map((item, index) => {
-      const option = item.split(':')
-      // // if (this.access.indexOf(option[3]) > -1) {
-      const { label, type, powerCode } = toBtnConfig(item)
+      let option = item.split(':') as CButtonActionList
+      // if (this.access.indexOf(option[3]) > -1) {
+      // https://v3.cn.vuejs.org/api/global-api.html#withdirectives
       return h(
-        'el-button',
-        {
-          props: {
-            type: 'primary'
-          },
-          directives: [{
-            name: 'permission',
-            value: powerCode
-          }],
-          on: {
-            click: () => {
-              if (type === 'Todo') {
-                this.$emit('todo', { option })
+          ElButton,
+          {
+            type: 'primary',
+            // // 不与权限关联时不需要指令，mode的索引变成3
+            // directives: [{
+            //   name: 'permission',
+            //   value: `${this.resource}:${option[3]}`
+            // }],
+            onClick: () => {
+              if (option[1] === 'Todo') {
+                this.$emit('todo', option)
               } else {
                 this.$emit('action', { option })
               }
             }
-          }
-        },
-        label // option[0]
-      )
+          },
+          option[0]
+        )
       // }
     })
-    return h('el-button-group', {}, buttons)
+    return h(ElButtonGroup, {}, buttons)
   }
-}
+})
 </script>

@@ -1,8 +1,9 @@
 // import CellEdit from '../../components/CellEdit.vue'
-import { h } from 'vue'
+import { h, withDirectives } from 'vue'
 import { toBtnConfig } from '@/utils/comm.ts'
+import { ElButton } from 'element-plus'
 
-function commonOperation (arr) {
+function commonOperation (arr, toDoActions, optionActions) {
   // 不与权限关联时用例：["编辑:Page:Edit:edit","查看:Page:Edit:read","删除:Todo:rowDelete","自定义Page:Page:AA","DialogPage:Dialog:AAADialog"]
   // 与权限关联时用例：["编辑:Page:Edit:update:edit","查看:Page:Edit:detail:read","删除:Todo:rowDelete:delete","自定义Page:Page:AA","DialogPage:Dialog:AAADialog"]
   return ({ row }) => {
@@ -12,10 +13,23 @@ function commonOperation (arr) {
       // if (this.resourceAccess.indexOf(option[3]) > -1) { // 权限是否存在判断
       // eslint-disable-next-line no-eval
       if (rule && eval(rule)) return ''
-      return h(
-        'ElButton', {
-          type: 'text',
-          size: 'mini',
+      return withDirectives(h(
+        ElButton, {
+          type: 'primary',
+          text: true,
+          size: 'small',
+          onClick: () => {
+            if (type === 'Todo') {
+              // this.actionTodo({ row, option })
+              // toDoActions[methodName]({row})
+            } else {
+              // this.$emit('option', {
+              //   row,
+              //   option
+              // })
+              // optionActions({ row, option })
+            }
+          }
           // directives: [{
           //   name: 'permission',
           //   value: powerCode
@@ -45,8 +59,11 @@ function commonOperation (arr) {
           //   }
           // }
         },
-        label
-      )
+        label + methodName
+      ),[
+        // 不与权限关联时不需要指令，mode的索引变成3
+        // [permissionDirective, `${resource}:${option[3]}`]
+      ])
       // }
     })
   }
