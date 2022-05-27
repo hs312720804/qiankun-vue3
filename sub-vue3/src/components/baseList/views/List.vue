@@ -1,13 +1,13 @@
 <template>
   <div>
     <c-card ref="contentCard" class="content">
-      <!-- <div style="border: 1px solid red">{{tableHeader}}</div> -->
-      <!-- <div style="border: 1px solid red">{{table.data}}</div> -->
+      <!-- <div style="border: 1px solid red">{{tableHeader}}</div>
+      <div style="border: 1px solid red">{{table.data}}</div> -->
       <!-- <div style="border: 1px solid red">{{table.props}}</div> -->
       <!-- <div style="border: 1px solid red">{{pagination}}</div> -->
       <!-- <div style="border: 1px solid red">{{ showList }}</div> -->
-      <div style="border: 1px solid red">{{ actions }}</div>
-      <div style="border: 1px solid red">{{ actionTodo }}</div>
+      <!-- <div style="border: 1px solid red">{{ actions }}</div>
+      <div style="border: 1px solid red">{{ actionTodo }}</div> -->
       <c-content-wrapper
         v-show="showList"
         :pagination="pagination"
@@ -20,7 +20,7 @@
               :actions="actions"
               :rows="table.data"
               :resource="resource"
-              @action="actionOption"
+              @action="handleAction"
               @todo="actionTodo"
             ></Actions>
           </div>
@@ -88,7 +88,8 @@
   import { ElNotification } from 'element-plus'
   import _ from 'lodash'
   import Actions from './Actions.vue'
-  import listActions from './mixin/listActions'
+  import { ElMessage } from 'element-plus'
+  import useToDo from './mixin/listActions'
   // const hello = ref(null)
   // const helloClick = () => {
   //   console.log(hello.value) // 123456
@@ -102,7 +103,7 @@
   
   // -------初始化---------start
   
-  const emits = defineEmits(['action'])
+  const emits = defineEmits(['action', 'todo', 'go-back'])
   const props = defineProps({
     menuId: {
       type: Number
@@ -111,6 +112,9 @@
       type: Object,
       default: {}
     }
+  })
+  defineExpose({
+    fetchData
   })
 
   
@@ -177,7 +181,7 @@
     clearSelected,
     handleFilterChange,
     parseFilter
-  } = useBaseList(menu, primaryKey, table, handleResource, fetchData)
+  } = useBaseList(menu, primaryKey, table, handleResource, fetchData, handleTodo, handleAction )
 
   console.log('listDataMap', listDataMap)
   /**
@@ -297,33 +301,75 @@
       })
     })
   }
+  
   // 自定义方法：主要是批量删除、删除、编辑等 在当前页面就能实现的功能
-  function actionTodo (msg) {
-      const { row, option } = msg
-      const actions = { ...handleResource.todo, ...listActions.methods } // 合并传入的Todo
-      Object.keys(actions).forEach(key => {
-        this[key] = actions[key]
-      })
-      const operate = option[2]
-      if (operate.indexOf('(') > -1) { // 判断是否有参数
-        const arg = operate.slice(operate.indexOf('(') + 1, operate.indexOf(')'))
-        const fun = operate.slice(0, operate.indexOf('('))
-        if (this[fun]) {
-          this[fun]({ arg, row, option })
-        } else {
-          this.$message.error('请正确设置操作方法或者联系开发人员')
-        }
-      } else {
-        if (this[option[2]]) {
-          this[option[2]](msg)
-        } else {
-          this.$message.error('请正确设置操作方法或者联系开发人员')
-        }
-      }
-    }
+  // function handleTodo (msg) {
+  //     const { row, option } = msg
+  //     const actions = { ...handleResource.todo, ...listActions.methods } // 合并传入的Todo
+  //     Object.keys(actions).forEach(key => {
+  //       this[key] = actions[key]
+  //     })
+  //     const operate = option[2]
+  //     if (operate.indexOf('(') > -1) { // 判断是否有参数
+  //       const arg = operate.slice(operate.indexOf('(') + 1, operate.indexOf(')'))
+  //       const fun = operate.slice(0, operate.indexOf('('))
+  //       if (this[fun]) {
+  //         this[fun]({ arg, row, option })
+  //       } else {
+  //         this.$message.error('请正确设置操作方法或者联系开发人员')
+  //       }
+  //     } else {
+  //       if (this[option[2]]) {
+  //         this[option[2]](msg)
+  //       } else {
+  //         this.$message.error('请正确设置操作方法或者联系开发人员')
+  //       }
+  //     }
+  //   }
   // 自定义方法：主要是页面跳转、弹窗展开等需要在 Index 页面实现的功能
-  const optionActions: COptionActions<BaseListRow> = function (data) {
+  function handleAction (data) {
     emits('action', data)
+  }
+
+
+  type BaseListRow = { [key: string]: any; }
+
+  // 新增、批量删除等按钮的方法（包括列表操作列上的删除、预览等按钮）
+  const toDoActions = useToDo<BaseListRow>({ fetchData, api: api.value, selected: selected.value, goBack, primaryKey: primaryKey.value })
+  console.log('useToDo===', useToDo)
+
+  // 自定义方法：主要是页面跳转、弹窗展开等需要在 Index 页面实现的功能
+  function handleTodo (data: any) {
+    console.log('todoData===', data)
+    const { row, option } = data
+    // const actions = { ...handleResource.todo, ...listActions.methods } // 合并传入的Todo
+    
+    const operate = option[2]
+    toDoActions[operate as CToDoActionNotRow](row)
+    // console.log('toDoActions===', toDoActions)
+    // if (operate.indexOf('(') > -1) { // 判断是否有参数
+    //   const arg = operate.slice(operate.indexOf('(') + 1, operate.indexOf(')'))
+    //   const fun = operate.slice(0, operate.indexOf('('))
+    //   if (actions[fun]) {
+    //     actions[fun]({ arg, row, option })
+    //   } else {
+    //     ElMessage.error('请正确设置操作方法或者联系开发人员')
+    //   }
+    // } else {
+    //   if (actions[option[2]]) {
+    //     actions[option[2]](data)
+    //   } else {
+    //     ElMessage.error('请正确设置操作方法或者联系开发人员')
+    //   }
+    // }
+    // emits('todo', data)
+    // template.value = data.option[2]
+    // title.value = data.option[0]
+    // mode.value = data.option[3]
+  }
+
+  function goBack () {
+    emits('go-back')
   }
 
   function handlefilterExpand (msg) {

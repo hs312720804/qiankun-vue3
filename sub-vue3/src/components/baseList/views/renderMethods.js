@@ -3,7 +3,7 @@ import { h, withDirectives } from 'vue'
 import { toBtnConfig } from '@/utils/comm.ts'
 import { ElButton } from 'element-plus'
 
-function commonOperation (arr, toDoActions, optionActions) {
+function commonOperation (arr, handleTodo, handleAction) {
   // 不与权限关联时用例：["编辑:Page:Edit:edit","查看:Page:Edit:read","删除:Todo:rowDelete","自定义Page:Page:AA","DialogPage:Dialog:AAADialog"]
   // 与权限关联时用例：["编辑:Page:Edit:update:edit","查看:Page:Edit:detail:read","删除:Todo:rowDelete:delete","自定义Page:Page:AA","DialogPage:Dialog:AAADialog"]
   return ({ row }) => {
@@ -21,13 +21,14 @@ function commonOperation (arr, toDoActions, optionActions) {
           onClick: () => {
             if (type === 'Todo') {
               // this.actionTodo({ row, option })
-              // toDoActions[methodName]({row})
+              // handleTodo[methodName]({ row })
+              handleTodo({ row, option })
             } else {
               // this.$emit('option', {
               //   row,
               //   option
               // })
-              // optionActions({ row, option })
+              handleAction({ row, option })
             }
           }
           // directives: [{
@@ -59,7 +60,7 @@ function commonOperation (arr, toDoActions, optionActions) {
           //   }
           // }
         },
-        label + methodName
+        label
       ),[
         // 不与权限关联时不需要指令，mode的索引变成3
         // [permissionDirective, `${resource}:${option[3]}`]

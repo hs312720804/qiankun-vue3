@@ -10,8 +10,8 @@
    selected: Array<T>
    primaryKey: string // this.baseIndex.primaryKey
  }
-//  export default function useToDoActions<T extends { [key: string]: any; }> ({ fetchData, api, selected, goBack, primaryKey }: Params<T>): CToDoActionHandles<T> {
-  export function batchDelete () {
+ export default function useToDoActions<T extends { [key: string]: any; }> ({ fetchData, api, selected, goBack, primaryKey }: Params<T>): CToDoActionHandles<T> {
+  function batchDelete () {
     if (selected.length < 1) {
       return ElMessage.error('请选择数据，再删除')
     }
@@ -27,7 +27,7 @@
       // this.$emit('go-back')
     })
   }
-  export function batchDeleteUser () {
+  function batchDeleteUser () {
     if (selected.length < 1) {
       return ElMessage.error('请选择数据，再删除')
     }
@@ -40,12 +40,13 @@
     }).catch(() => {
       ElMessage.info('已取消删除')
       goBack()
+      // emit('go-back')
       // this.$emit('go-back')
     })
   }
 
 
-  export function tableDelete ({ data, params, isJSON = true }: { data?: any; params?: any; isJSON?: boolean; }) {
+  function tableDelete ({ data, params, isJSON = true }: { data?: any; params?: any; isJSON?: boolean; }) {
     ElMessageBox.confirm('确定要删除吗, 是否继续?', '提示', { type: 'warning' }).then(() => {
       apiFetch({
         method: api.delete[1],
@@ -68,9 +69,25 @@
     })
   }
 
-
+  /**
+       * 单项删除
+       * */
+  function singleDel (row: T) {
+    // const idKey = primaryKey
+    // const params = {
+    //   id: row[idKey]
+    // }
+    // rowDelete(row)
+    tableDelete(
+      {
+        params: {
+          [primaryKey]: row[primaryKey]
+        }
+      }
+    )
+  }
   // 删除行，需要保证详情、编辑、删除等使用的请求参数key一致
-  export function rowDelete (row: T) {
+  function rowDelete (row: T) {
     tableDelete(
       {
         params: {
@@ -80,7 +97,7 @@
     )
   }
   // 删除角色
-  export function roleDelete (row: T) {
+  function roleDelete (row: T) {
     tableDelete(
       {
         params: {
@@ -90,7 +107,7 @@
     )
   }
   // 删除用户
-  export function userDelete (row: T) {
+  function userDelete (row: T) {
     tableDelete(
       {
         params: {
@@ -100,7 +117,7 @@
     )
   }
   // 删除枚举字典
-  export function enumDelete (row: T) {
+  function enumDelete (row: T) {
     tableDelete(
       {
         params: {
@@ -109,27 +126,28 @@
       }
     )
   }
-  export function handleRefresh () {
+  function handleRefresh () {
     fetchData()
   }
-
-  export default {
+  return {
     batchDelete,
     batchDeleteUser,
+    singleDel,
     rowDelete,
     roleDelete,
     userDelete,
     enumDelete,
     handleRefresh
   }
-  //  return {
-  //    batchDelete,
-  //    batchDeleteUser,
-  //    rowDelete,
-  //    roleDelete,
-  //    userDelete,
-  //    enumDelete,
-  //    handleRefresh
-  //  }
+  // export default {
+  //   batchDelete,
+  //   batchDeleteUser,
+  //   rowDelete,
+  //   roleDelete,
+  //   userDelete,
+  //   enumDelete,
+  //   handleRefresh
+  // }
+}
  
  

@@ -3,7 +3,7 @@ import { evil } from '@/utils/consts.js'
 import { ElTag, ElImage } from 'element-plus'
 import { renderMethods } from './renderMethods'
 
-export default function useUserRepositories(menu, primaryKey, table, handleResource, fetchData) {
+export default function useUserRepositories(menu, primaryKey, table, handleResource, fetchData, handleTodo, handleAction) {
 
 
   // const repositories = ref([])
@@ -39,8 +39,8 @@ export default function useUserRepositories(menu, primaryKey, table, handleResou
       if (typeof item.render === 'string') {
         // 如果是新的按钮生成逻辑，则走 commonOperation 方法
         if (item.btnConfig) {
-          // header[key].render = renderMethodsUtils.value.commonOperation(item.btnConfig, toDoActions, optionActions)
-          header[key].render = renderMethodsUtils.value.commonOperation(item.btnConfig)
+          header[key].render = renderMethodsUtils.value.commonOperation(item.btnConfig, handleTodo, handleAction)
+          // header[key].render = renderMethodsUtils.value.commonOperation(item.btnConfig)
         } else if (item.render) {
           const _this = this // eval 中会使用 _this 这个变量，不能删除
           Object.keys(renderMethodsUtils).forEach(key => {

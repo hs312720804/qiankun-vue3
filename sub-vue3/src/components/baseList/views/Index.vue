@@ -3,13 +3,16 @@
     <div style="position:relative">
       <ResourceList
         ref="list"
-        :style="{'visibility': isShowList ? 'visible' : 'hidden'}"
+        :style="{'display': isShowList ? 'block' : 'none'}"
         :menu="menuDetail"
         v-if="menuDetail"
-        @option="handleOption"
         @action="handleAction"
       ></ResourceList>
-      <!-- <ResourceContent
+      <!-- <div>isShowList - {{ isShowList }}</div>
+      <div>optionType - {{ optionType }}</div>
+      <div>mode - {{ mode }}</div>
+      <div>id - {{ id }}</div> -->
+      <ResourceContent
         v-if="!isShowList || optionType === 'Confirm'"
         :mode="mode"
         :id="id"
@@ -22,15 +25,15 @@
         :selected="selected"
         @upsert-end="handleUpsertEnd"
         @go-back="goBack"
-      ></ResourceContent> -->
+      ></ResourceContent>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-  import { toRefs, getCurrentInstance, ref, provide } from 'vue'
+  import { toRefs, getCurrentInstance, ref, provide,nextTick } from 'vue'
   import ResourceList from './List.vue'
+  import ResourceContent from './Page.vue'
   import { evil } from '@/utils/consts.js'
-  
 
   const props = defineProps({
     menuId: {
@@ -60,6 +63,7 @@
       }
     }
   })
+  console.log('props=====', props)
   // -------初始化---------start
   // const instance = getCurrentInstance() as any; //获取上下文实例，ctx = vue2的this
   // const globalProperties = instance.appContext.config.globalProperties
@@ -114,68 +118,63 @@
     })
   }
 
-  
-  
-  
-  
+  const list = ref()
+  const handleUpsertEnd = () => {
+    isShowList.value = true
+    mode.value = 'list'
+    console.log('list===', list)
+    list.value.fetchData()
+  }
 
-  
-
-  // defineExpose({
-  //   disposalField
-  // })
-
-  // const handleUpsertEnd = () => {
-  //   this.isShowList = true
-  //   this.mode = 'list'
-  //   this.$refs.list.fetchData()
-  // }
+  const dialogForm = ref()
 
   // const handleOption = (data) => {
-  //   this.template = data.option[2]
-  //   this.title = data.option[0]
-  //   this.mode = data.option[3]
+  //   template.value = data.option[2]
+  //   title.value = data.option[0]
+  //   mode.value = data.option[3]
   //   if ('row' in data) {
-  //     this.row = data.row
-  //     this.id = data.row[primaryKey.value]
+  //     row = data.row
+  //     id.value = data.row[primaryKey.value]
   //   }
-  //   this.optionType = data.option[1]
+  //   optionType.value = data.option[1]
   //   if (data.option[1] === 'Page') {
-  //     this.isShowList = false
+  //     isShowList.value = false
   //   }
   //   if (data.option[1] === 'Dialog') {
-  //     this.dialogVisible = true
-  //     this.$nextTick(() => {
-  //       this.$refs.dialogForm.fetchData && this.$refs.dialogForm.fetchData()
+  //     dialogVisible.value = true
+  //     nextTick(() => {
+  //       dialogForm.value.fetchData && dialogForm.value.fetchData()
   //     })
   //   }
   // }
 
-  // const handleAction = (data) => {
-  //   this.template = data.option[2]
-  //   this.title = data.option[0]
-  //   this.mode = data.option[4]
-  //   if ('row' in data) {
-  //     this.id = data.row[primaryKey.value]
-  //   }
-  //   if ('selected' in data) {
-  //     this.selected = data.selected
-  //   }
-  //   this.optionType = data.option[1]
-  //   if (data.option[1] === 'Page') {
-  //     this.isShowList = false
-  //   }
-  //   if (data.option[1] === 'Dialog') {
-  //     this.dialogVisible = true
-  //   }
-  // }
+  const handleAction = (data: any) => {
+    template.value = data.option[2]
+    title.value = data.option[0]
+    mode.value = data.option[3] || data.option[4]
 
-  // const goBack = () => {
-  //   this.isShowList = true
-  //   this.mode = 'list'
-  //   this.optionType = ''
-  //   this.id = undefined
-  // }
+    if ('row' in data) {
+      id.value = data.row[primaryKey.value]
+    }
+    if ('selected' in data) {
+      selected = data.selected
+    }
+    optionType.value = data.option[1]
+    if (data.option[1] === 'Page') {
+      isShowList.value = false
+    }
+    if (data.option[1] === 'Dialog') {
+      dialogVisible.value = true
+    }
+  }
+
+
+  const goBack = () => {
+    isShowList.value = true
+    mode.value = 'list'
+    optionType.value = ''
+    id.value = undefined
+  }
 
   // const hiddenDialog = (val) => {
   //   this.$refs.dialogForm.clearForm && this.$refs.dialogForm.clearForm()
