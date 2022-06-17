@@ -82,25 +82,20 @@
   import { computed, ref, reactive, toRefs, onMounted, inject } from 'vue'
   import { evil } from '@/utils/consts.js'
   import {baseListFetch} from '@/utils/listFetch.js'
-  import Index from './Index.vue'
-  import helloword from './HelloWorld.vue'
-  import useBaseList from './useBaseList.js'
+  // import Index from './Index.vue'
+  // import helloword from './HelloWorld.vue'
+  import useBaseList from './useBaseList'
   import { ElNotification } from 'element-plus'
   import _ from 'lodash'
   import Actions from './Actions.vue'
-  import { ElMessage } from 'element-plus'
   import useToDo from './mixin/listActions'
-  // const hello = ref(null)
-  // const helloClick = () => {
-  //   console.log(hello.value) // 123456
-  // }
+  import { MenuDetailType} from '@/services/menu'
+ 
   const primaryKey = inject('primaryKey')
   const disposalField = inject<Function>('disposalField')
   const fetchMethod = inject<Function>('fetchMethod')
   const handleResource = inject<Function>('handleResource')
 
-
-  
   // -------初始化---------start
   
   const emits = defineEmits(['action', 'todo', 'go-back'])
@@ -124,10 +119,10 @@
 
   let filterFields = ref([])
   let filter = reactive({})
-  let isExpand = ref(false)
+  // let isExpand = ref(false)
   let filterExpand = ref(false)
-  let filterType = ref<string>('')
-  let filterTypeLabel = ref<string>('')
+  // let filterType = ref<string>('')
+  // let filterTypeLabel = ref<string>('')
   const buttonText = reactive({
     query: '查询',
     reset: '重置',
@@ -135,7 +130,7 @@
     packUp: '收起',
   })
 
-  let table = reactive({
+  let table = reactive<tableType>({
     props: {
       border: true,
       stripe: true
@@ -144,9 +139,9 @@
     data: [],
     selected: []
   })
-  let template = ref<string>('')
+  // let template = ref<string>('')
   let actions = ref([])
-  let actionsMethods = reactive({})
+  // let actionsMethods = reactive({})
 
 
   const tableType = computed(() => {
@@ -156,7 +151,7 @@
       return 'list'
     }
   })
-
+  const menuValue:MenuDetailType = menu.value
   let {
     disabled,
     pagination,
@@ -168,20 +163,20 @@
     resource,
     listDataMap,
     selectionType,
-    selectChange,
-    setHeight,
-    listHeightChange,
-    handleSizeChange,
-    handleCurrentChange,
-    handleRowSelectionAdd,
-    handleRowSelectionRemove,
-    handleAllRowSelectionChange ,
-    handleAllRowSelectionRemove,
-    updateTableSelected,
-    clearSelected,
+    // selectChange,
+    // setHeight,
+    // listHeightChange,
+    // handleSizeChange,
+    // handleCurrentChange,
+    // handleRowSelectionAdd,
+    // handleRowSelectionRemove,
+    // handleAllRowSelectionChange ,
+    // handleAllRowSelectionRemove,
+    // updateTableSelected,
+    // clearSelected,
     handleFilterChange,
     parseFilter
-  } = useBaseList(menu, primaryKey, table, handleResource, fetchData, handleTodo, handleAction )
+  } = useBaseList(menuValue, primaryKey, table, handleResource, fetchData, handleTodo, handleAction )
 
   console.log('listDataMap', listDataMap)
   /**

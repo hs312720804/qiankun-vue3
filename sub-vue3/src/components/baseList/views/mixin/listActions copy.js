@@ -65,6 +65,16 @@ var mixin = {
       this.rowDelete({ data: params, params })
     },
     /**
+     * 单项删除
+     * */
+    sSingleDel ({ row }) {
+      const idKey = this.baseIndex.primaryKey
+      const params = {
+        id: row[idKey]
+      }
+      this.rowDelete({ data: params, params })
+    },
+    /**
      * 行内删除
      * */
     rowDelete ({ data, params, isJSON = true }) {

@@ -86,6 +86,23 @@
       }
     )
   }
+  /**
+       * 单项删除
+       * */
+  function sSingleDel (row: T) {
+    // const idKey = primaryKey
+    // const params = {
+    //   id: row[idKey]
+    // }
+    // rowDelete(row)
+    tableDelete(
+      {
+        params: {
+          [primaryKey]: row[primaryKey]
+        }
+      }
+    )
+  }
   // 删除行，需要保证详情、编辑、删除等使用的请求参数key一致
   function rowDelete (row: T) {
     tableDelete(
@@ -133,6 +150,7 @@
     batchDelete,
     batchDeleteUser,
     singleDel,
+    sSingleDel,
     rowDelete,
     roleDelete,
     userDelete,

@@ -27,7 +27,7 @@ export interface MenuFields<T> {
   primaryKey: 1 | 0 // 是否主键; 1:是,0:否
   required?: boolean | undefined
 }
-export interface MenuDetail {
+export interface MenuDetailType {
   /**
    * JSON.stringify(MenuApi[])
    */
@@ -41,17 +41,19 @@ export interface MenuDetail {
    * JSON.stringify(MenuFields[])
    */
   fields: string
-  children: MenuDetail[] | null
-  template?: string
+  children: MenuDetailType[] | null
+  template?: string,
+  apiJson: string,
+  extraJson: string
 }
 
 export const getMenusDetail = (params: { id: string | number; }) => {
-  return fetch<MenuDetail>({
+  return fetch<MenuDetailType>({
     method: 'get',
     url: 'auth/menu/detail',
     params
   }).then(res => {
-    return res as MenuDetail
+    return res as MenuDetailType
   })
 }
 

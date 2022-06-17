@@ -4,7 +4,7 @@ type CActionHandleType = 'Todo'
 type CActionType = CActionTemplateType | CActionHandleType  // 按钮类型
 type CActionTemplate = 'Edit' | ''
 type CActionTemplateTrueName = `${CActionTemplate}${CActionTemplateType}`
-type CToDoActionWithRow = 'rowDelete' | 'roleDelete' | 'userDelete' | 'enumDelete'
+type CToDoActionWithRow = 'rowDelete' | 'roleDelete' | 'userDelete' | 'enumDelete' | 'singleDel' | 'sSingleDel'
 type CToDoActionNotRow = 'batchDelete' | 'batchDeleteUser' | 'handleRefresh'
 type CToDoAction = CToDoActionWithRow | CToDoActionNotRow
 type CActionPermission = 'add'
@@ -54,4 +54,21 @@ interface COptions {
   label: string
   value: string
   disabled: CRBACButtonType
+}
+
+interface tableType {
+  props: {
+    border: Boolean,
+    stripe: Boolean
+  },
+  header: Array,
+  data: Array
+  selected: Array
+}
+
+interface handleResourceType {
+  pages: any,
+  dialogs: any,
+  todo: any,
+  renderMethods: any
 }

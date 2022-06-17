@@ -125,13 +125,17 @@ function fetchApi<ResponseData> ({
     })
 }
 
-export default function fetch () {
+type p = {
+  [key: string]: string | boolean | Object
+}
+
+export default function fetch (param:p) {
   let _fetch = fetchApi
   // 根据不同的环境(只有被qiankun主应用引用时才会有$mainState)切换 fetch 方法
   // if (window.__POWERED_BY_QIANKUN__) {
   //   _fetch = Vue.prototype.$mainState.fetch
   // }
-  return _fetch(...arguments).catch(error => {
+  return _fetch(...param).catch(error => {
     ElNotification({
       title: `操作失败（Code = ${error.code}）`,
       type: 'error',

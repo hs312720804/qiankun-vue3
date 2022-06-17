@@ -17,6 +17,24 @@ const routes = [
     // component: () => import(/* webpackChunkName: "baseListDirectory" */ '@/components/HelloWorld.vue')
     component: () => import('@/views/directory/Index.vue'),
   },
+
+  {
+    path: '/',
+    name: 'home',
+    component: () => import('@/views/directory/Index.vue'),
+  },
+  {
+    path: '/directory',
+    name: 'directory',
+    component: () => import('@/views/directory/Index.vue'),
+  },
+  {
+    path: '/file',
+    name: 'file',
+    component: () => import('@/views/directory/Index.vue'),
+
+
+  },
  
   
 ]

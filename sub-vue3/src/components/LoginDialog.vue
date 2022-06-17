@@ -9,7 +9,7 @@
     @close="handleClose"
   >
     <!-- <div slot="title">重新登录后刷新</div> -->
-    <template #title="{ close, titleId, titleClass }">
+    <template>
       <div class="my-header">
         <div>重新登录后刷新</div>{{ dialogVisible }}
       </div>
@@ -61,7 +61,7 @@
 <script lang="ts" setup>
   import { computed, watch, ref, toRefs, reactive } from 'vue'
   import Storage from '@/utils/storage'
-  import { loginService } from '@/services/common.ts'
+  import { loginService } from '@/services/common'
   import { ElForm } from 'element-plus'
   import { User, Lock } from '@element-plus/icons-vue'
 

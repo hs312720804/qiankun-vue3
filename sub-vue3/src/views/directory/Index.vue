@@ -13,7 +13,7 @@
   import BaseList from '@/components/baseList/views/Index.vue'
   // import BaseList from './ExtendsIndex.vue'
 
-  import pages from './pages/index.ts'
+  import pages from './pages/index'
 
   // import dialogs from './dialog'
   // import todo from './todo'
@@ -23,7 +23,7 @@
   import { reactive } from 'vue'
   defineProps({
     menuId: {
-      type: [Number, String],
+      type: [Number],
       default: ''
     }
   })
