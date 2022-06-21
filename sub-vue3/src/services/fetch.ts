@@ -135,7 +135,7 @@ export default function fetch (param:p) {
   // if (window.__POWERED_BY_QIANKUN__) {
   //   _fetch = Vue.prototype.$mainState.fetch
   // }
-  return _fetch(...param).catch(error => {
+  return _fetch(param).catch(error => {
     ElNotification({
       title: `操作失败（Code = ${error.code}）`,
       type: 'error',

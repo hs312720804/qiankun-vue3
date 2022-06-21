@@ -11,8 +11,6 @@
 
 <script setup lang="ts">
   import BaseList from '@/components/baseList/views/Index.vue'
-  // import BaseList from './ExtendsIndex.vue'
-
   import pages from './pages/index'
 
   // import dialogs from './dialog'

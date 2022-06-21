@@ -28,5 +28,3 @@ export function useStore () {
   return baseUseStore(key) as typeof store
 }
 
-console.log('store1====', store)
-console.log('store2====', useStore())
