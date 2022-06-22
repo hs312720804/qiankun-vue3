@@ -1,4 +1,15 @@
 import store from './store'
+import fetch from './services/fetch.js'
+
+
+const mainState = {}
+Object.defineProperties(mainState, {
+  fetch: {
+    get () {
+      return fetch
+    }
+  }
+})
 
 const microApps = [
   {
@@ -16,7 +27,7 @@ const microApps = [
     activeRule: '/sub-vue3',
     // container: '#subapp-viewport', // 子应用挂载的div
     props: {
-      routerBase: '/sub-vue3' // 下发路由给子应用，子应用根据该值去定义qiankun环境下的路由
+      routerBase: '/sub-vue3', // 下发路由给子应用，子应用根据该值去定义qiankun环境下的路由
     }
   }
 ]
@@ -27,7 +38,8 @@ const apps = microApps.map(item => {
     container: '#subapp-viewport', // 子应用挂载的div
     props: {
       routerBase: item.activeRule, // 下发基础路由
-      getGlobalState: store.getGlobalState // 下发getGlobalState方法
+      getGlobalState: store.getGlobalState, // 下发getGlobalState方法
+      mainState
     },
   }
 })
