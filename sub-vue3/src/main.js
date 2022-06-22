@@ -18,6 +18,8 @@ import '../node_modules/@ccprivate/admin-toolkit-plus/dist/style.css'
 
 // let router = null;
 let app = null;
+
+// 导出相应的生命周期
 renderWithQiankun({
   mount(props) {
     // storeTest(props);/
@@ -51,12 +53,16 @@ function render(props = {}) {
     app.component(key, component)
   }
 
-  
+  // 创建实例，安装插件，挂载
   app.use(store).use(router).use(ElementPlus, { zIndex: 3000 }).use(adminToolkitPlus)
   // app.use(router);
   app.mount(container ? container.querySelector("#app") : "#app");
 }
 
+
+
+// qiankun 官方是以 window.__POWERED_BY_QIANKUN__ 来判断当前是否为 qiankun 环境下，
+// 而该插件引用之后是通过 qiankunWindow.__POWERED_BY_QIANKUN__来判断
 if (!qiankunWindow.__POWERED_BY_QIANKUN__) {
   render({});
 }
