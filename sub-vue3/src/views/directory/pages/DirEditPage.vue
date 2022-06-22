@@ -1,4 +1,5 @@
 <template>
+1415
   <el-form class="modelForm" ref="modelFormEl" :model="modelState.data" :rules="modelState.rules" label-width="120px">
     <el-form-item v-if="isRootDir" label="AppID" prop="appId">
       <span>{{ modelState.data.appId }}<el-button type="primary" text="true" @click="handleCopy(modelState.data.appId)">复制</el-button></span>

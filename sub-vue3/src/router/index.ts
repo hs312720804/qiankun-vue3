@@ -30,6 +30,10 @@ const routes = [
   },
   
 ]
+// vue2：
+// Vue.use(VueRouter)
+// new VueRouter()
+
 
 const router = createRouter({
   routes,

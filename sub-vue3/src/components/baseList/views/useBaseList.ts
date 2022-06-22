@@ -36,9 +36,7 @@ export default function useUserRepositories(menu: MenuDetailType, primaryKey: st
 
   let tableHeader = computed(() => {
     let header = JSON.parse(JSON.stringify(table.header))
-    console.log(
-      'header1111111111', JSON.parse(JSON.stringify(table.header))
-    )
+ 
     table.header.forEach((item, index) => {
       if (typeof item.render === 'string') {
         // 如果是新的按钮生成逻辑，则走 commonOperation 方法
@@ -90,7 +88,6 @@ export default function useUserRepositories(menu: MenuDetailType, primaryKey: st
         }
       }
     })
-    console.log('header2222===', header)
 
     return header
   })

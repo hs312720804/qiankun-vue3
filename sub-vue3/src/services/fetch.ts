@@ -1,4 +1,4 @@
-import {getCurrentInstance} from 'vue'
+import { getCurrentInstance } from 'vue'
 import qs from 'qs'
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ElLoading, ElNotification } from 'element-plus'
@@ -136,8 +136,6 @@ export default function fetch (param:p) {
   // 根据不同的环境(只有被 qiankun 主应用引用时才会有 $mainState )切换 fetch 方法
   if (qiankunWindow.__POWERED_BY_QIANKUN__) {
     const instance = getCurrentInstance()
-    // console.log('111instance===' ,instance)
-    // console.log('111instance===' ,instance?.appContext.config.globalProperties)
     _fetch = instance?.appContext.config.globalProperties.$mainState.fetch
   }
   return _fetch(param).catch(error => {

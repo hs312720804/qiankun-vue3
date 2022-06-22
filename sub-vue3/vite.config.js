@@ -65,10 +65,10 @@ export default ({ mode }) => {
         'VUE_APP_API_PREFIX': 'violet-api',
       }
     },
-    plugins: [ 
+    plugins: [
       vue(),
       qiankun(name, {
-        useDevMode: true
+        useDevMode: false // useDevMode = true 则不使用热更新插件，useDevMode = false 则能使用热更新
     })],
     
     // alias: {

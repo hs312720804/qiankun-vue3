@@ -21,7 +21,11 @@ export const storeOptions = {
   },
   getters,
 }
+// vue2：
+// Vue.use(Vuex)   
+// new Vuex.Store
 
+// vue3：
 export const store = createStore(storeOptions)
 
 export function useStore () {
