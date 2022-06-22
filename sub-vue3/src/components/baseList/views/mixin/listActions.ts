@@ -8,7 +8,7 @@
    goBack: () => void
    api: MenuApi
    selected: Array<T>
-   primaryKey: string // this.baseIndex.primaryKey
+   primaryKey: string
  }
  export default function useToDoActions<T extends { [key: string]: any; }> ({ fetchData, api, selected, goBack, primaryKey }: Params<T>): CToDoActionHandles<T> {
   function batchDelete () {
@@ -24,7 +24,6 @@
     }).catch(() => {
       ElMessage.info('已取消删除')
       goBack()
-      // this.$emit('go-back')
     })
   }
   function batchDeleteUser () {
@@ -39,6 +38,7 @@
       ElMessage.success('删除成功!')
     }).catch(() => {
       ElMessage.info('已取消删除')
+      // 需要 emit 的函数，全部都通过传参传进来
       goBack()
       // emit('go-back')
       // this.$emit('go-back')
@@ -70,8 +70,8 @@
   }
 
   /**
-       * 单项删除
-       * */
+   * 单项删除
+   * */
   function singleDel (row: T) {
     // const idKey = primaryKey
     // const params = {

@@ -1,8 +1,11 @@
+import {getCurrentInstance} from 'vue'
 import qs from 'qs'
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ElLoading, ElNotification } from 'element-plus'
 import { store } from '@/store'
 import Storage from '@/utils/storage'
+import { qiankunWindow } from 'vite-plugin-qiankun/dist/helper';
+
 // import NProgress from 'nprogress'
 // import 'nprogress/nprogress.css'
 interface Res<T> { code: number | string; success: boolean; data: T; msg: string; }
@@ -27,7 +30,6 @@ const instance = axios.create({
  * @param {*} param
  * @returns
  */
-console.log('process===', process)
 function fetchApi<ResponseData> ({
   method = 'get',
   url,
@@ -131,10 +133,13 @@ type p = {
 
 export default function fetch (param:p) {
   let _fetch = fetchApi
-  // 根据不同的环境(只有被qiankun主应用引用时才会有$mainState)切换 fetch 方法
-  // if (window.__POWERED_BY_QIANKUN__) {
-  //   _fetch = Vue.prototype.$mainState.fetch
-  // }
+  // 根据不同的环境(只有被 qiankun 主应用引用时才会有 $mainState )切换 fetch 方法
+  if (qiankunWindow.__POWERED_BY_QIANKUN__) {
+    const instance = getCurrentInstance()
+    // console.log('111instance===' ,instance)
+    // console.log('111instance===' ,instance?.appContext.config.globalProperties)
+    _fetch = instance?.appContext.config.globalProperties.$mainState.fetch
+  }
   return _fetch(param).catch(error => {
     ElNotification({
       title: `操作失败（Code = ${error.code}）`,

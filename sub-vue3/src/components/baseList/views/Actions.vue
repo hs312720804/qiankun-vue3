@@ -16,7 +16,7 @@ export default defineComponent({
     }
   },
   emits: {
-    todo: (option: CButtonActionList) => true,
+    todo: ({ option }: { option: CButtonActionList; }) => true,
     action: ({ option }: { option: CButtonActionList; }) => true
   },
   render () {
@@ -36,7 +36,7 @@ export default defineComponent({
             // }],
             onClick: () => {
               if (option[1] === 'Todo') {
-                this.$emit('todo', option)
+                this.$emit('todo', { option })
               } else {
                 this.$emit('action', { option })
               }

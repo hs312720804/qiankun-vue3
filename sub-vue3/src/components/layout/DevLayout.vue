@@ -40,10 +40,10 @@
             <el-icon><icon-menu /></el-icon>
             <template #title>目录管理</template>
           </el-menu-item>
-          <!-- <el-menu-item index="/main" @click="getRouter('/main')">
+          <el-menu-item index="/" @click="getRouter('/')">
             <el-icon><setting /></el-icon>
             <template #title>主页</template>
-          </el-menu-item> -->
+          </el-menu-item>
         </el-menu>
       </el-aside>
 
@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, reactive, watch } from 'vue'
+  import { ref } from 'vue'
   // import { useRouter, useRoute } from 'vue-router'
   import { useRouter, useRoute, RouteRecordRaw } from 'vue-router'
 

@@ -21,11 +21,10 @@
               :rows="table.data"
               :resource="resource"
               @action="handleAction"
-              @todo="actionTodo"
+              @todo="handleTodo"
             ></Actions>
           </div>
-          <!-- {{ filterFields }}
-          {{ !filterExpand }} -->
+        
           <template v-if="filterFields.length > 0">
             <c-list-filter
               v-if="!filterExpand"
@@ -65,9 +64,6 @@
           :data="table.data"
           :selected="table.selected"
           :selection-type="selectionType"
-          @row-selection-add="handleRowSelectionAdd"
-          @row-selection-remove="handleRowSelectionRemove"
-          @all-row-selection-change="handleAllRowSelectionChange"
         ></c-table>
   
       </c-content-wrapper>
@@ -91,7 +87,7 @@
   import useToDo from './mixin/listActions'
   import { MenuDetailType} from '@/services/menu'
  
-  const primaryKey = inject('primaryKey')
+  const primaryKey = inject<String>('primaryKey')
   const disposalField = inject<Function>('disposalField')
   const fetchMethod = inject<Function>('fetchMethod')
   const handleResource = inject<Function>('handleResource')
@@ -152,6 +148,7 @@
     }
   })
   const menuValue:MenuDetailType = menu.value
+
   let {
     disabled,
     pagination,
@@ -175,7 +172,7 @@
     // updateTableSelected,
     // clearSelected,
     handleFilterChange,
-    parseFilter
+    // parseFilter
   } = useBaseList(menuValue, primaryKey, table, handleResource, fetchData, handleTodo, handleAction )
 
   console.log('listDataMap', listDataMap)
@@ -264,8 +261,8 @@
       getListData(api.value.list, { ...filter, ...params })
     }
   }
+
   function getListData (url:string, params) {
-    // const filter = this.parseFilter()
     return new Promise((resolve, reject) => {
       console.log('baseListFetch===', baseListFetch)
       
@@ -286,7 +283,6 @@
           pagination.total = listData.total
         }
 
-        console.log('tableaaa================', table)
       }).catch(e => {
         ElNotification({
           title: '获取数据失败',
@@ -297,70 +293,21 @@
     })
   }
   
-  // 自定义方法：主要是批量删除、删除、编辑等 在当前页面就能实现的功能
-  // function handleTodo (msg) {
-  //     const { row, option } = msg
-  //     const actions = { ...handleResource.todo, ...listActions.methods } // 合并传入的Todo
-  //     Object.keys(actions).forEach(key => {
-  //       this[key] = actions[key]
-  //     })
-  //     const operate = option[2]
-  //     if (operate.indexOf('(') > -1) { // 判断是否有参数
-  //       const arg = operate.slice(operate.indexOf('(') + 1, operate.indexOf(')'))
-  //       const fun = operate.slice(0, operate.indexOf('('))
-  //       if (this[fun]) {
-  //         this[fun]({ arg, row, option })
-  //       } else {
-  //         this.$message.error('请正确设置操作方法或者联系开发人员')
-  //       }
-  //     } else {
-  //       if (this[option[2]]) {
-  //         this[option[2]](msg)
-  //       } else {
-  //         this.$message.error('请正确设置操作方法或者联系开发人员')
-  //       }
-  //     }
-  //   }
-  // 自定义方法：主要是页面跳转、弹窗展开等需要在 Index 页面实现的功能
+  
+  // 需要在 Index 页面实现的功能:   自定义方法：主要是页面跳转、弹窗展开等
   function handleAction (data) {
     emits('action', data)
   }
 
-
   type BaseListRow = { [key: string]: any; }
-
   // 新增、批量删除等按钮的方法（包括列表操作列上的删除、预览等按钮）
   const toDoActions = useToDo<BaseListRow>({ fetchData, api: api.value, selected: selected.value, goBack, primaryKey: primaryKey.value })
-  console.log('useToDo===', useToDo)
 
-  // 自定义方法：主要是页面跳转、弹窗展开等需要在 Index 页面实现的功能
+  // 在当前页面就能实现的功能:   主要是批量删除、删除、编辑等 
   function handleTodo (data: any) {
-    console.log('todoData===', data)
-    const { row, option } = data
-    // const actions = { ...handleResource.todo, ...listActions.methods } // 合并传入的Todo
-    
+    const { row = '', option } = data
     const operate = option[2]
     toDoActions[operate as CToDoActionNotRow](row)
-    // console.log('toDoActions===', toDoActions)
-    // if (operate.indexOf('(') > -1) { // 判断是否有参数
-    //   const arg = operate.slice(operate.indexOf('(') + 1, operate.indexOf(')'))
-    //   const fun = operate.slice(0, operate.indexOf('('))
-    //   if (actions[fun]) {
-    //     actions[fun]({ arg, row, option })
-    //   } else {
-    //     ElMessage.error('请正确设置操作方法或者联系开发人员')
-    //   }
-    // } else {
-    //   if (actions[option[2]]) {
-    //     actions[option[2]](data)
-    //   } else {
-    //     ElMessage.error('请正确设置操作方法或者联系开发人员')
-    //   }
-    // }
-    // emits('todo', data)
-    // template.value = data.option[2]
-    // title.value = data.option[0]
-    // mode.value = data.option[3]
   }
 
   function goBack () {
@@ -370,16 +317,16 @@
   function handlefilterExpand (msg) {
     filterExpand = msg
   }
-  function handleExpand (val) {
-    isExpand = val
-  }
-  function handleFilterQuery (value) {
-    filter = value
-    handleFilterChange('query')
-  }
-  function hancleClearFilter () {
-    filter = {}
-  }
+  // function handleExpand (val) {
+  //   isExpand = val
+  // }
+  // function handleFilterQuery (value) {
+  //   filter = value
+  //   handleFilterChange('query')
+  // }
+  // function hancleClearFilter () {
+  //   filter = {}
+  // }
   function handleResetSearch () {
     Object.keys(filter).forEach(key => {
       filter[key] = ''
@@ -395,17 +342,10 @@
   }
 
 
-  
-
-  
-
-
-  
-
 </script>
 
 <style lang="stylus" scoped>
->>>.content-list
+:deep(.content-list)
   margin-top 0
   .el-pagination
     padding 15px 0 0
@@ -428,7 +368,7 @@ table
 th, td
   border 1px solid #EBEEF5
   padding 8px
->>>.data-form
+:deep(.data-form)
   .el-form-item--small.el-form-item
     margin-bottom 14px
 .list-option

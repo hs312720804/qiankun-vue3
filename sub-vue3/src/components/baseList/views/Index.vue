@@ -1,18 +1,19 @@
 <template>
+  <!-- <div>isShowList - {{ isShowList }}</div>
+  <div>optionType - {{ optionType }}</div>
+  <div>mode - {{ mode }}</div>
+  <div>id - {{ id }}</div> -->
   <div class="page-code--child">
     <div style="position:relative">
-      <ResourceList
+      <List
         ref="list"
         :style="{'display': isShowList ? 'block' : 'none'}"
         :menu="menuDetail"
         v-if="menuDetail"
         @action="handleAction"
-      ></ResourceList>
-      <!-- <div>isShowList - {{ isShowList }}</div>
-      <div>optionType - {{ optionType }}</div>
-      <div>mode - {{ mode }}</div>
-      <div>id - {{ id }}</div> -->
-      <ResourceContent
+      ></List>
+
+      <Page
         v-if="!isShowList || optionType === 'Confirm'"
         :mode="mode"
         :id="id"
@@ -25,14 +26,14 @@
         :selected="selected"
         @upsert-end="handleUpsertEnd"
         @go-back="goBack"
-      ></ResourceContent>
+      ></Page>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-  import { toRefs, getCurrentInstance, ref, provide,nextTick } from 'vue'
-  import ResourceList from './List.vue'
-  import ResourceContent from './Page.vue'
+  import { toRefs, getCurrentInstance, ref, provide, nextTick } from 'vue'
+  import List from './List.vue'
+  import Page from './Page.vue'
   import { evil } from '@/utils/consts.js'
 
   const props = defineProps({
@@ -75,11 +76,10 @@
   let mode = ref('create')
   let template = ref('')
   let title = ref('')
-  let row = ref('')
   let dialogVisible = ref(false)
   let optionType = ref('')
   let selected = ref([])
-  let dialogChang = ref(false) // 弹窗数据改
+  // let dialogChang = ref(false) // 弹窗数据改
   let menuDetail = ref()
   let primaryKey = ref<string>('')// 主键
 
@@ -97,11 +97,11 @@
       }
     })
   }
+
   provide('primaryKey', primaryKey)
   provide('disposalField', disposalField)
   provide('fetchMethod', fetchMethod)
   provide('handleResource', handleResource)
-
 
   fetchMenuData(menuId.value)
 
@@ -147,7 +147,8 @@
   //     })
   //   }
   // }
-
+  // handleOption  -- 表格里面的自定义方法：主要是页面跳转、弹窗展开等需要在 Index 页面实现的功能
+  // handleOption 和 handleAction 合并成一个函数
   const handleAction = (data: any) => {
     template.value = data.option[2]
     title.value = data.option[0]

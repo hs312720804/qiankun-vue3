@@ -7,58 +7,25 @@ function commonOperation (arr, handleTodo, handleAction) {
   // 不与权限关联时用例：["编辑:Page:Edit:edit","查看:Page:Edit:read","删除:Todo:rowDelete","自定义Page:Page:AA","DialogPage:Dialog:AAADialog"]
   // 与权限关联时用例：["编辑:Page:Edit:update:edit","查看:Page:Edit:detail:read","删除:Todo:rowDelete:delete","自定义Page:Page:AA","DialogPage:Dialog:AAADialog"]
   return ({ row }) => {
-    return arr.map((item, index) => {
+    return arr.map((item) => {
       const option = item.split(':')
       const { label, type, methodName, rule, powerCode } = toBtnConfig(item)
       // if (this.resourceAccess.indexOf(option[3]) > -1) { // 权限是否存在判断
       // eslint-disable-next-line no-eval
       if (rule && eval(rule)) return ''
-      return withDirectives(h(
+      return withDirectives(h( // h 由 vue 全局导入，并且，VNode 有一个扁平的 prop 结构
         ElButton, {
           type: 'primary',
-          text: true,
+          text: true, // element-plus 的文字按钮属性和 element-UI 不一样
           size: 'small',
           onClick: () => {
             if (type === 'Todo') {
-              // this.actionTodo({ row, option })
-              // handleTodo[methodName]({ row })
               handleTodo({ row, option })
             } else {
-              // this.$emit('option', {
-              //   row,
-              //   option
-              // })
               handleAction({ row, option })
             }
           }
-          // directives: [{
-          //   name: 'permission',
-          //   value: powerCode
-          // }],
-          // onClick: () => {
-          //   if (option[1] === 'Todo') {
-          //     toDoActions({ row, option })
-          //     // this[option[2]](row)
-          //   } else {
-          //     optionActions({ row, option })
-          //     // this.$emit('option', {
-          //     //   row,
-          //     //   option
-          //     // })
-          //   }
-          // }
-          // on: {
-          //   click: () => {
-          //     if (option[1] === 'Todo') {
-          //       this.actionTodo({ row, option })
-          //     } else {
-          //       this.$emit('option', {
-          //         row,
-          //         option
-          //       })
-          //     }
-          //   }
-          // }
+
         },
         label
       ),[
@@ -70,49 +37,7 @@ function commonOperation (arr, handleTodo, handleAction) {
   }
 }
 
-/**
- * @deprecated 当前方法已经废弃，已改用 commonOperation，为了兼容旧的数据，改方法不能删除
- * @param {*} arr
- * @returns
- */
-function handleOperation (arr) {
-  // 不与权限关联时用例：["编辑:Page:Edit:edit","查看:Page:Edit:read","删除:Todo:rowDelete","自定义Page:Page:AA","DialogPage:Dialog:AAADialog"]
-  // 与权限关联时用例：["编辑:Page:Edit:update:edit","查看:Page:Edit:detail:read","删除:Todo:rowDelete:delete","自定义Page:Page:AA","DialogPage:Dialog:AAADialog"]
-  return ({ row }) => {
-    return arr.map((item, index) => {
-      const option = item.split(':')
-      const { label, type, methodName, rule, powerCode } = toBtnConfig(item)
-      // if (this.resourceAccess.indexOf(option[3]) > -1) { // 权限是否存在判断
-      // eslint-disable-next-line no-eval
-      if (rule && eval(rule)) return ''
-      return h(
-        'ElButton', {
-          type: 'text',
-          size: 'mini',
-          // directives: [{
-          //   name: 'permission',
-          //   value: powerCode
-          // }],
-          // on: {
-          //   click: () => {
-          //     if (type === 'Todo') {
-          //       // this[methodName](row)
-          //       this.actionTodo({ row, option })
-          //     } else {
-          //       this.$emit('option', {
-          //         row,
-          //         option
-          //       })
-          //     }
-          //   }
-          // }
-        },
-        label
-      )
-      // }
-    })
-  }
-}
+
 function stringHidden (prop, frontLen, endLen) {
   return ({ row }) => {
     return h(
@@ -143,7 +68,7 @@ function stringHidden (prop, frontLen, endLen) {
 // 数据埋点事件管理列表操作
 
 const renderMethods = {
-  handleOperation,
+  // handleOperation,
   stringHidden,
   // cellEdit,
   commonOperation

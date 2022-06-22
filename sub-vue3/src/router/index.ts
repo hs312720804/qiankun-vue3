@@ -5,37 +5,29 @@ const routes = [
   //   name: 'home',
   //   component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue')
   // },
+  // {
+  //   name: 'directory',
+  //   path: '/directory',
+  //   // component: () => import(/* webpackChunkName: "baseListDirectory" */ '@/components/HelloWorld.vue')
+  //   component: () => import('@/components/HelloWorld.vue'),
+  // },
+  // {
+  //   name: 'main',
+  //   path: '/main',
+  //   // component: () => import(/* webpackChunkName: "baseListDirectory" */ '@/components/HelloWorld.vue')
+  //   component: () => import('@/views/directory/Index.vue'),
+  // },
+
   {
-    name: 'directory',
-    path: '/directory',
-    // component: () => import(/* webpackChunkName: "baseListDirectory" */ '@/components/HelloWorld.vue')
+    name: 'home',
+    path: '/',
     component: () => import('@/components/HelloWorld.vue'),
   },
   {
-    name: 'main',
-    path: '/main',
-    // component: () => import(/* webpackChunkName: "baseListDirectory" */ '@/components/HelloWorld.vue')
-    component: () => import('@/views/directory/Index.vue'),
-  },
-
-  {
-    path: '/',
-    name: 'home',
-    component: () => import('@/views/directory/Index.vue'),
-  },
-  {
-    path: '/directory',
     name: 'directory',
-    component: () => import('@/views/directory/Index.vue'),
+    path: '/directory',
+    component: () => import('@/views/directory/Index.vue')
   },
-  {
-    path: '/file',
-    name: 'file',
-    component: () => import('@/views/directory/Index.vue'),
-
-
-  },
- 
   
 ]
 

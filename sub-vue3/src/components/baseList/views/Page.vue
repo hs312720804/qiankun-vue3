@@ -109,7 +109,7 @@ let showIcon = ref(false)
 <style lang="stylus" scoped>
 .show-one-line
   display flex
-  >>> button
+  :deep(button)
     height 32px
     margin-left 10px
 .el-dialog--height

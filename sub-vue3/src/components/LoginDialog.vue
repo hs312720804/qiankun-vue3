@@ -87,7 +87,6 @@
   })
 
   const { reLoginMsg, modelValue } = toRefs(props)
-  console.log('value===', modelValue)
   // -------初始化---------end
 
 
@@ -101,20 +100,16 @@
   )
 
   function handleClose () {
-    // dialogVisible.value = false
-    console.log('dialogVisible===', dialogVisible)
     emits('update:modelValue', false)
   }
 
+  // InstanceType<T> - 获取构造函数的实例类型
   const loginRef = ref<InstanceType<typeof ElForm>>()
 
   function handleLogin () {
-    // const loginRef = this.$refs.loginRef as any 
-    console.log('loginRef====', loginRef)
     loginRef.value?.validate((isValid: boolean) => {
       if (isValid) {
         loginService(adminForm).then((res) => {
-          console.log('1111111=======', res)
           Storage.$set('user', res)
           Storage.$set('userLogin', adminForm.username)
           window.location.reload()

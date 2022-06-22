@@ -16,7 +16,6 @@ export default function useUserRepositories(menu: MenuDetailType, primaryKey: st
   //   getUserRepositories
   // })
   // watch(user, getUserRepositories)
-  console.log('handleResource======', handleResource)
 
   let disabled = ref(false)
 
@@ -30,36 +29,30 @@ export default function useUserRepositories(menu: MenuDetailType, primaryKey: st
 
   let renderMethodsUtils = computed(() => {
     return {
-      ...handleResource.renderMethods,
-      ...renderMethods
+      ...handleResource.renderMethods, // 我们自己编写的页面上的方法，自定义的方法
+      ...renderMethods  // 
     }
   }) 
 
   let tableHeader = computed(() => {
     let header = JSON.parse(JSON.stringify(table.header))
-    table.header.forEach((item, key) => {
+    console.log(
+      'header1111111111', JSON.parse(JSON.stringify(table.header))
+    )
+    table.header.forEach((item, index) => {
       if (typeof item.render === 'string') {
         // 如果是新的按钮生成逻辑，则走 commonOperation 方法
         if (item.btnConfig) {
-          header[key].render = renderMethodsUtils.value.commonOperation(item.btnConfig, handleTodo, handleAction)
-          // header[key].render = renderMethodsUtils.value.commonOperation(item.btnConfig)
+          header[index].render = renderMethodsUtils.value.commonOperation(item.btnConfig, handleTodo, handleAction)
         }
-        //  else if (item.render) {
-        //   const _this = this // eval 中会使用 _this 这个变量，不能删除
-        //   Object.keys(renderMethodsUtils).forEach(key => {
-        //     _this[key] = renderMethodsUtils[key].bind(this)
-        //   })
-        //   // eslint-disable-next-line no-eval
-        //   header[key].render = eval('(' + item.render + ')') // todo 源代码，会使用 _this 这个变量
-        // }
       }
 
       if (item.inputType === 'enum' && (!('render' in item) || !item.render)) {
-        header[key].render = function ({ row }) {
-          const optionsText: { [key: string]: string; } = {}
+        header[index].render = function ({ row }) {
+          const optionsText: { [index: string]: string; } = {}
 
           const tagType = ['', 'success', 'info', 'warning', 'danger']
-          item.options.forEach(option => {
+          item.options.forEach((option:any) => {
             optionsText[option.value] = option.label
           })
           let tags = [row[item.prop]]
@@ -68,20 +61,11 @@ export default function useUserRepositories(menu: MenuDetailType, primaryKey: st
           }
           const tagVNodes = tags.map(value => h(
             ElTag,
-             // {
-            //   style: { margin: '5px' },
-            //   props: {
-            //     type: tagType[key] || ''
-            //   }
-            // },
             {
               effect: 'plain',
               type: tagType[value] || '',
               style: {
                 margin: '5px',
-                // border: '1px solid ' + (borderColor || color || '#909399'), // 设有设置颜色用默认颜色，默认颜色用完用灰色
-                // color: '#909399',
-                // color: color || '#909399',
               },
             },
             optionsText[value]
@@ -89,19 +73,11 @@ export default function useUserRepositories(menu: MenuDetailType, primaryKey: st
           return h('div', { style: { lineHeight: '32px' } }, tagVNodes)
         }
       }
+      
       if (item.inputType === 'image' && (!('render' in item) || !item.render)) {
-        header[key].render = function ({ row }) {
+        header[index].render = function ({ row }) {
           return h(
             ElImage,
-            // {
-            //   attrs: {
-            //     src: row[item.prop],
-            //     fit: 'contain'
-            //   },
-            //   style: {
-            //     height: '50px'
-            //   }
-            // },
             {
               src: row[item.prop],
               fit: 'contain',
@@ -114,9 +90,10 @@ export default function useUserRepositories(menu: MenuDetailType, primaryKey: st
         }
       }
     })
+    console.log('header2222===', header)
+
     return header
   })
-console.log('menu===', menu)
   let api = computed(() => {
     return evil(menu.apiJson)
   })

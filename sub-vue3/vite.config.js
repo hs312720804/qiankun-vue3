@@ -48,7 +48,6 @@ import qiankun from 'vite-plugin-qiankun';
 import { resolve  } from 'path';
 import { name } from './package.json'
 // const useDevMode = true
-
 const BACKEND = process.env.BACKEND || '172.20.151.12:9080'
 // const BACKEND = process.env.BACKEND || '172.20.151.197:9080'
 const PORT = process.env.PORT || '5001'
