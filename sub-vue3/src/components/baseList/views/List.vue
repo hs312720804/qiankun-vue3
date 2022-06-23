@@ -150,29 +150,15 @@
   const menuValue:MenuDetailType = menu.value
 
   let {
-    disabled,
     pagination,
     selected,
-    showInfo,
     showList,
     tableHeader,
     api,
     resource,
     listDataMap,
     selectionType,
-    // selectChange,
-    // setHeight,
-    // listHeightChange,
-    // handleSizeChange,
-    // handleCurrentChange,
-    // handleRowSelectionAdd,
-    // handleRowSelectionRemove,
-    // handleAllRowSelectionChange ,
-    // handleAllRowSelectionRemove,
-    // updateTableSelected,
-    // clearSelected,
     handleFilterChange,
-    // parseFilter
   } = useBaseList(menuValue, primaryKey, table, handleResource, fetchData, handleTodo, handleAction )
 
   console.log('listDataMap', listDataMap)
@@ -224,14 +210,9 @@
   }
 
   pageSetting(menu.value)
-  // pageSetting(menu)
   
   // -------初始化---------end
 
-  // const baseList = ref(null)
-  // const baseListClick = () => {
-  //   console.log(baseList.value) // 123456
-  // }
   
 
   function pageSetting (data) {

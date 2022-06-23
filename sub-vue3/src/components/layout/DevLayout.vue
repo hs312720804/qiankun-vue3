@@ -63,29 +63,20 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue'
-  // import { useRouter, useRoute } from 'vue-router'
-  import { useRouter, useRoute, RouteRecordRaw } from 'vue-router'
+  import { useRouter, useRoute } from 'vue-router'
 
   import {
-    // Document,
     Menu as IconMenu,
-    // Location,
-    // Setting,
   } from '@element-plus/icons-vue'
   import LoginDialog from '@/components/LoginDialog.vue'
-  // import { getMenusService } from '@/services/common'
-  // import { store } from '@/store'
 
 
   // -------初始化---------start
-  // const menuId = 133
   const menuId = ref('133')
   const isCollapse = ref(false)
   const isShowLogin = ref(false)
   const reLoginMsg = ref('')
   const userLoginName = ref('')
-  // const prodMenus = ref([])
-  // const menuIdMap = reactive({})
 
   
   // -------初始化---------end
@@ -106,35 +97,6 @@
   function handleView (msg = '') {
     
   }
-
-  // function setMenus () {
-  //   getMenusService({ productKey: process.env.VUE_APP_PROJECT_CODE }).then(res => {
-  //     const { buttons } = res
-  //     const menus = res.tenantMenus || res
-  //     prodMenus.value = menus.map(genCMenu)
-  //     // prodMenus.value = [ { "title": "概览", "icon": "Avatar", "route": "overview", "children": [ { "title": "介绍", "icon": "", "route": "home" } ] }, { "title": "示例页面", "icon": "Bowl", "route": "example", "children": [ { "title": "列表pro", "icon": "", "route": "example-listpro" }, { "title": "Iframe", "icon": "", "route": "Iframe" }, { "title": "测试页面", "icon": "", "route": "example-listpro-test" }, { "title": "文章列表", "icon": "", "route": "article" }, { "title": "卡片列表", "icon": "Grid", "route": "card-list" }, { "title": "文章列表(tony)", "icon": "", "route": "article11" }, { "title": "TabPage", "icon": "", "route": "tab-page" } ] }, { "title": "动画特效", "icon": "BrushFilled", "route": "animation", "children": [ { "title": "转场动画", "icon": "", "route": "TransitionAnimation" } ] }, { "title": "系统管理", "icon": "Shop", "route": "sys", "children": [ { "title": "基本信息", "icon": "", "route": "site-info" }, { "title": "用户管理", "icon": "", "route": "user" }, { "title": "角色管理", "icon": "", "route": "role" }, { "title": "枚举字典", "icon": "", "route": "enum" }, { "title": "菜单管理", "icon": "", "route": "menu" }, { "title": "部门管理", "icon": "", "route": "department" }, { "title": "资源管理", "icon": "", "route": "resource" }, { "title": "数据资源管理", "icon": "", "route": "data-resource" } ] } ]
-
-  //     store.commit('dev/setAccess', { buttons })
-  //   })
-  // }
-  // function genCMenu ({ id, alias, name, icon, children }: RouteRecordRaw) {
-  //   menuIdMap[alias] = id
-  //   const currentMenuItem = {
-  //     title: name,
-  //     icon: icon,
-  //     route: alias
-  //   }
-  //   if (children) {
-  //     currentMenuItem.children = children.reduce((result, item) => {
-  //       const menuItem = genCMenu(item)
-  //       if (menuItem) {
-  //         result.push(menuItem)
-  //       }
-  //       return result
-  //     }, [])
-  //   }
-  //   return currentMenuItem
-  // }
 
   const $router = useRouter()
   const $route = useRoute()

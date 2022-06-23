@@ -4,6 +4,13 @@ import { ElTag, ElImage } from 'element-plus'
 import { renderMethods } from './renderMethods'
 import { MenuDetailType} from '@/services/menu'
 
+// 在 Vue 2 中，mixin 是将部分组件逻辑抽象成可重用块的主要工具。但是，他们有几个问题：
+
+//     1、Mixin 很容易发生冲突：因为每个 mixin 的 property 都被合并到同一个组件中，所以为了避免 property 名冲突，你仍然需要了解其他每个特性。
+
+//     2、可重用性是有限的：我们不能向 mixin 传递任何参数来改变它的逻辑，这降低了它们在抽象逻辑方面的灵活性。
+
+// 为了解决这些问题，我们添加了一种通过逻辑关注点组织代码的新方法：组合式 API。
 
 export default function useUserRepositories(menu: MenuDetailType, primaryKey: string, table: tableType, handleResource: handleResourceType, fetchData:Function, handleTodo:Function, handleAction:Function) {
 
@@ -23,9 +30,6 @@ export default function useUserRepositories(menu: MenuDetailType, primaryKey: st
     pageSize: 10,
     currentPage: 1
   })
-  // let selected = ref([])
-  // let showInfo = ref(false)
-  // let showList = ref(false)
 
   let renderMethodsUtils = computed(() => {
     return {
@@ -113,29 +117,7 @@ export default function useUserRepositories(menu: MenuDetailType, primaryKey: st
       disabled.value = false
     })
   }
-  // function setHeight () {
-  //   const tableEl = this.$refs.table.$refs.table.$el
-  //   const tableRect = tableEl.getBoundingClientRect()
-  //   const height = window.innerHeight - tableRect.top - 76
-  //   table.props = {
-  //     'max-height': height,
-  //     'height': height
-  //   }
-  //   this.$refs.table.$refs.table.doLayout()
-  // }
-  // function listHeightChange () {
-  //   const elTable = document.querySelector('.el-table') ? document.querySelector('.el-table') : ''
-  //   const height = document.querySelector('.el-main').clientHeight
-  //   if (!height) {
-  //     table.props = {
-  //       ...table.props,
-  //       'max-height': this.$store.state.app.listHeight
-  //     }
-  //     // this.tableDoLayout()
-  //   } else {
-  //     elTable.style.maxHeight = (height - 107) + 'px'
-  //   }
-  // }
+
   function handleSizeChange (val) {
     // this.pageSize = val
     fetchData()
@@ -145,50 +127,7 @@ export default function useUserRepositories(menu: MenuDetailType, primaryKey: st
     // this.currentPage = val
     fetchData()
   }
-  // function handleRowSelectionAdd (targetItem) {
-  //   selected.value.push(targetItem)
-  //   updateTableSelected()
-  // }
-  // function handleRowSelectionRemove (targetItem) {
-  //   selected.value = selected.value.filter(item => {
-  //     return item[primaryKey] !== targetItem[primaryKey]
-  //   })
-  //   updateTableSelected()
-  // }
-  // function handleAllRowSelectionChange (value) {
-  //   if (value) {
-  //     table.data.forEach(handleRowSelectionAdd)
-  //   } else {
-  //     handleAllRowSelectionRemove()
-  //   }
-  // }
-  // function handleAllRowSelectionRemove () {
-  //   const currentPageSelected = table.data.map(e => {
-  //     return e[primaryKey]
-  //   })
-  //   selected.value = selected.value.filter(e => {
-  //     return !currentPageSelected.includes(e[primaryKey])
-  //   })
-  //   table.selected = []
-  // }
-  // function updateTableSelected () {
-  //   const table = table
-  //   const newSelectedIndex = selected.value.reduce((result, item) => {
-  //     result[item[primaryKey]] = true
-  //     return result
-  //   }, {})
-  //   table.selected = table.data.reduce((result, item, index) => {
-  //     if (newSelectedIndex[item[primaryKey]]) {
-  //       result.push(index)
-  //     }
-  //     return result
-  //   }, [])
-  // }
-  // function clearSelected () {
-  //   selected.value = []
-  //   table.selected = []
-  //   updateTableSelected()
-  // }
+  
   function handleFilterChange (type) {
     if (type === 'query') {
       if (pagination) {
@@ -221,16 +160,8 @@ export default function useUserRepositories(menu: MenuDetailType, primaryKey: st
     listDataMap,
     selectionType,
     selectChange,
-    // setHeight,
-    // listHeightChange,
     handleSizeChange,
     handleCurrentChange,
-    // handleRowSelectionAdd,
-    // handleRowSelectionRemove,
-    // handleAllRowSelectionChange ,
-    // handleAllRowSelectionRemove,
-    // updateTableSelected,
-    // clearSelected,
     handleFilterChange,
     parseFilter
   }

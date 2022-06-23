@@ -1,4 +1,3 @@
-// import CellEdit from '../../components/CellEdit.vue'
 import { h, withDirectives } from 'vue'
 import { toBtnConfig } from '@/utils/comm.ts'
 import { ElButton } from 'element-plus'
@@ -29,10 +28,7 @@ function commonOperation (arr, handleTodo, handleAction) {
         },
         label
       ),[
-        // 不与权限关联时不需要指令，mode的索引变成3
-        // [permissionDirective, `${resource}:${option[3]}`]
       ])
-      // }
     })
   }
 }
@@ -47,30 +43,12 @@ function stringHidden (prop, frontLen, endLen) {
     )
   }
 }
-// function cellEdit (prop) {
-//   return (h, { row }) => {
-//     return h(
-//       CellEdit,
-//       {
-//         props: {
-//           initValue: row[prop]
-//         },
-//         on: {
-//           blur: (val) => {
-//             console.log(val)
-//           }
-//         }
-//       }
 
-//     )
-//   }
-// }
 // 数据埋点事件管理列表操作
 
 const renderMethods = {
   // handleOperation,
   stringHidden,
-  // cellEdit,
   commonOperation
 }
 // 方法名:说明
