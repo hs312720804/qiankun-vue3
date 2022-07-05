@@ -27,35 +27,36 @@ export interface MenuFields<T> {
   primaryKey: 1 | 0 // 是否主键; 1:是,0:否
   required?: boolean | undefined
 }
+interface buttonType {
+  buttonId: string
+  cname: string
+  selected: number
+}
 export interface MenuDetailType {
-  /**
-   * JSON.stringify(MenuApi[])
-   */
   id: number
-  api: string
-  /**
-   * JSON.stringify(MenuExtra)
-   */
+  name: string
   extra: string
-  /**
-   * JSON.stringify(MenuFields[])
-   */
+  path: string
+  pid: number
   fields: string
   children: MenuDetailType[] | null
   template?: string,
   apiJson: string,
   extraJson: string
+  fieldsJson: string
+  buttons: Array<buttonType>
 }
 
 export const getMenusDetail = (params: { id: string | number; }) => {
-  return fetch<MenuDetailType>({
+  return fetch({
     method: 'get',
     url: 'auth/menu/detail',
     params
-  }).then(res => {
-    return res as MenuDetailType
+  }).then((res) => {
+    return res
   })
 }
+
 
 // function removeEmptyChildren (menus: Array<MenuDetail>) {
 //   menus.forEach(item => {

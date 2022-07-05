@@ -72,3 +72,43 @@ interface handleResourceType {
   todo: any,
   renderMethods: any
 }
+
+type optionsType = {
+  label: string
+  value: string
+}
+interface tableHeaderItemType {
+  inputType: string
+  label: string
+  prop: string
+  render: string
+  required: Boolean
+  use: Array<string | number>
+  width: string
+  btnConfig?: null | string | Array<string | number>
+  options: optionsType[],
+  optionsApi: {
+    use: Array<string | number>
+    url: string
+    label: string
+    value: string | number
+    method: string
+  }
+}
+
+type fetchMethodType = () => {
+
+}
+
+interface serviceMapType {
+  // add?: (data, params, ...config) => {}
+  // camPolicyList?: (data, params, ...config) => {}
+  // delete?: (data, params, ...config) => {}
+  // detail?: (data, params, ...config) => {}
+  // genAppIdSecret?: (data, params, ...config) => {}
+  // list?: (data, params, ...config) => {}
+  // update?: (data, params, ...config) => {}
+  // updateAppIdSecret?: (data, params, ...config) => {}
+
+  [key: string]: (data, params, ...config) => {}, // 字段扩展声明
+}

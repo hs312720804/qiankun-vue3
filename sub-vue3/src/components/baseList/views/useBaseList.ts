@@ -2,7 +2,7 @@ import { ref, reactive, computed, nextTick, watch, h } from 'vue'
 import { evil } from '@/utils/consts.js'
 import { ElTag, ElImage } from 'element-plus'
 import { renderMethods } from './renderMethods'
-import { MenuDetailType} from '@/services/menu'
+import { MenuDetailType } from '@/services/menu'
 
 // 在 Vue 2 中，mixin 是将部分组件逻辑抽象成可重用块的主要工具。但是，他们有几个问题：
 
@@ -34,14 +34,14 @@ export default function useUserRepositories(menu: MenuDetailType, primaryKey: st
   let renderMethodsUtils = computed(() => {
     return {
       ...handleResource.renderMethods, // 我们自己编写的页面上的方法，自定义的方法
-      ...renderMethods  // 
+      ...renderMethods
     }
   }) 
 
   let tableHeader = computed(() => {
     let header = JSON.parse(JSON.stringify(table.header))
  
-    table.header.forEach((item, index) => {
+    table.header.forEach((item: tableHeaderItemType, index:number) => {
       if (typeof item.render === 'string') {
         // 如果是新的按钮生成逻辑，则走 commonOperation 方法
         if (item.btnConfig) {
@@ -50,7 +50,7 @@ export default function useUserRepositories(menu: MenuDetailType, primaryKey: st
       }
 
       if (item.inputType === 'enum' && (!('render' in item) || !item.render)) {
-        header[index].render = function ({ row }) {
+        header[index].render = function ({ row }: any) {
           const optionsText: { [index: string]: string; } = {}
 
           const tagType = ['', 'success', 'info', 'warning', 'danger']

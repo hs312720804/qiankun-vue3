@@ -9,7 +9,7 @@ export default {
     httpHeaders: {
       AccessToken: (Storage.$get('user') || {}).access_token || '',
       Authorization: 'Basic Y2xpZW50OmFkbWlu',
-      ProductId: process.env.VUE_APP_PROJECT_ID
+      ProductId: import.meta.env.VITE_APP_PROJECT_ID
     }
   },
   mutations: {

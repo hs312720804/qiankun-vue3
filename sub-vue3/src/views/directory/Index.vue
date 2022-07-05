@@ -20,7 +20,7 @@
   import { getMenusDetail } from '@/services/menu'
   import { reactive } from 'vue'
 
-  // defineProps 和 defineEmits 都是只在 <script setup> 中才能使用的编译器宏。
+  // defineProps 和 defineEmits 都a是只在 <script setup> 中才能使用的编译器宏。
   // 他们不需要导入且会随着 <script setup> 处理过程一同被编译掉。
   defineProps({
     menuId: {

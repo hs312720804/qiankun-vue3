@@ -52,7 +52,7 @@ function fetchApi<ResponseData> ({
   const option: AxiosRequestConfig = {
     method,
     // url: `violet-api/${url}`,
-    url: `/${process.env.VUE_APP_API_PREFIX}${url}`,
+    url: `/${import.meta.env.VITE_APP_API_PREFIX}${url}`,
     data: (isJSON || data instanceof FormData)
       ? data
       : typeof data === 'string'

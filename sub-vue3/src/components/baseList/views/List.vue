@@ -75,7 +75,7 @@
 </template>
 <script setup lang="ts">
   import { useRoute } from 'vue-router'
-  import { computed, ref, reactive, toRefs, onMounted, inject } from 'vue'
+  import { ref, reactive, toRefs, inject } from 'vue'
   import { evil } from '@/utils/consts.js'
   import {baseListFetch} from '@/utils/listFetch.js'
   // import Index from './Index.vue'
@@ -86,24 +86,25 @@
   import Actions from './Actions.vue'
   import useToDo from './mixin/listActions'
   import { MenuDetailType} from '@/services/menu'
- 
-  const primaryKey = inject<String>('primaryKey')
-  const disposalField = inject<Function>('disposalField')
-  const fetchMethod = inject<Function>('fetchMethod')
-  const handleResource = inject<Function>('handleResource')
 
+  const primaryKey = inject<string>('primaryKey')
+  const disposalField = inject<() => any>('disposalField')
+  const fetchMethod = inject<() => any>('fetchMethod')
+  const handleResource = inject<handleResourceType>('handleResource')
+
+  // console.log('primaryKey===', primaryKey)
+  // console.log('disposalField===', disposalField)
+  // console.log('fetchMethod===', fetchMethod)
+  // console.log('handleResource===', primaryKey)
   // -------初始化---------start
   
   const emits = defineEmits(['action', 'todo', 'go-back'])
-  const props = defineProps({
-    menuId: {
-      type: Number
-    },
-    menu: {
-      type: Object,
-      default: {}
-    }
-  })
+  const props = defineProps<{
+    menuId: number
+    menu: MenuDetailType
+  }>()
+  
+
   defineExpose({
     fetchData
   })
@@ -140,14 +141,13 @@
   // let actionsMethods = reactive({})
 
 
-  const tableType = computed(() => {
-    if (evil(menu.value.extraJson).tableType) {
-      return evil(menu.value.extraJson).tableType
-    } else {
-      return 'list'
-    }
-  })
-  const menuValue:MenuDetailType = menu.value
+  // const tableType = computed(() => {
+  //   if (evil(menu.value.extraJson).tableType) {
+  //     return evil(menu.value.extraJson).tableType
+  //   } else {
+  //     return 'list'
+  //   }
+  // })
 
   let {
     pagination,
@@ -159,15 +159,20 @@
     listDataMap,
     selectionType,
     handleFilterChange,
-  } = useBaseList(menuValue, primaryKey, table, handleResource, fetchData, handleTodo, handleAction )
+  } = useBaseList(menu.value, primaryKey, table, handleResource, fetchData, handleTodo, handleAction )
 
   console.log('listDataMap', listDataMap)
+  interface newOptionsType {
+    label: string 
+    value: string | number
+    item: object
+  }
   /**
    * 处理选项filterFields数据
    * @param options = this.filterFields
    * */
-  const handleOptions = async (options) => {
-    console.log('options==', options)
+
+  const handleOptions = async (options: tableHeaderItemType[]) => {
     let apiOptions = []
     for (let i = 0; i < options.length; i++) {
       const item = options[i]
@@ -180,10 +185,10 @@
               valueKey: item.optionsApi.value,
               item,
               httpData: await new Promise((resolve, reject) => {
-                fetchMethod({
+                fetchMethod.value({
                   url: item.optionsApi.url,
                   method: item.optionsApi.method || 'get'
-                }).then(({ data }) => {
+                }).then(({ data }: any) => {
                   resolve(data)
                 })
               })
@@ -194,10 +199,11 @@
         }
       }
     }
-    console.log('apiOptions===', apiOptions)
+    
+
     for (let i = 0; i < apiOptions.length; i++) {
       const option = apiOptions[i]
-      const newOptions = []
+      const newOptions = [] as newOptionsType[]
       option.httpData.forEach(item => {
         newOptions.push({
           label: item[option.labelKey],
@@ -215,13 +221,14 @@
 
   
 
-  function pageSetting (data) {
+  function pageSetting (data:MenuDetailType) {
     let params = {
       page: pagination.currentPage,
       pageSize: pagination.pageSize
     }
     if (data.fieldsJson) {
-      const fields = evil(data.fieldsJson)
+      const fields = evil(data.fieldsJson) as tableHeaderItemType[]
+
       filterFields = disposalField(fields, 2) // 过滤出查询字段  "use": [2]
       handleOptions(filterFields)
       table.header = disposalField(fields, 1)  // 过滤出表格展示字段  "use": [1]
@@ -245,7 +252,6 @@
 
   function getListData (url:string, params) {
     return new Promise((resolve, reject) => {
-      console.log('baseListFetch===', baseListFetch)
       
       baseListFetch({
         apiJson: api.value,

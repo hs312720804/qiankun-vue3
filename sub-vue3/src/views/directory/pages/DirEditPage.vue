@@ -1,5 +1,4 @@
 <template>
-1415
   <el-form class="modelForm" ref="modelFormEl" :model="modelState.data" :rules="modelState.rules" label-width="120px">
     <el-form-item v-if="isRootDir" label="AppID" prop="appId">
       <span>{{ modelState.data.appId }}<el-button type="primary" text="true" @click="handleCopy(modelState.data.appId)">复制</el-button></span>
@@ -55,15 +54,14 @@
     </el-form-item>
   </el-form>
 </template>
-
 <script setup lang="ts">
   import { ref, reactive, computed } from 'vue'
   import { evil, ROOT_DIR_ID, AUDIT_TYPE_NONE, AUDIT_TYPE_SELF, STRORE_ADDR_FTP } from '@/utils/consts.js'
-  import { getEnumFieldOptions, doCopy } from '@/utils/comm.ts'
+  import { getEnumFieldOptions, doCopy } from '@/utils/comm'
   import { genApiService } from '@/services/common'
   import { ElMessage } from 'element-plus'
   import AuditProcedure from '../components/AuditProcedure.vue'
-
+  
   const emits = defineEmits(['go-back', 'upsert-end'])
   const props = defineProps({
     id: {

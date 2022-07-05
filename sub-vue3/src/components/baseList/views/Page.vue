@@ -20,11 +20,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import DefaultPages from './pages/index.ts'
+import DefaultPages from './pages/index'
 import { ElMessage } from 'element-plus'
-import {inject, computed, ref, toRefs} from 'vue'
+import { inject, computed, ref, Ref, toRefs } from 'vue'
 
-const handleResource = inject<Function>('handleResource')
+const handleResource = inject<Ref<handleResourceType>>('handleResource')
+
 const props = defineProps({
   id: {
     type: Number
@@ -62,7 +63,7 @@ const { template,optionType } = toRefs(props)
 // props: ['id', 'menuId', 'menu', 'mode', 'template', 'title', 'optionType', 'selected'],
 let templateComponents = computed(() => {
   return {
-    ...handleResource.value.pages,
+    ...handleResource?.value.pages,
     ...DefaultPages
   }
 })

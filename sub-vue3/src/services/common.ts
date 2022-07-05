@@ -37,28 +37,30 @@
 //    })
 //  }
  
- class BaseListFetchParamsError extends Error {
-   constructor (msg: string) {
-     super(msg)
-     this.code = -1
-     this.name = 'BaseListFetchParamsError'
-   }
- }
+class BaseListFetchParamsError extends Error {
+  code: number
+  constructor (msg: string) {
+    super(msg)
+    this.code = -1
+    this.name = 'BaseListFetchParamsError'
+  }
+}
  
- export function genApiService (apiJson: any = {}, fetchConfig = {}) {
-   const serviceMap = {}
-   Object.keys(apiJson).forEach(key => {
-     const [url, method] = apiJson[key]
-     serviceMap[key] = ({ data, params, ...config } = {}) => fetch({ ...fetchConfig, ...config, url, method, data, params }).then(({ data }) => data)
-   })
-   return apiKey => {
-     const service = serviceMap[apiKey]
-     if (!service) {
-       const errMsg = `缺少 ${apiKey} 服务，请在管理后台配置对应的服务`
-       ElMessage.error(errMsg)
-       return () => Promise.reject(new BaseListFetchParamsError(errMsg))
-     }
-     return service
-   }
+export function genApiService (apiJson: any = {}, fetchConfig = {}) {
+  const serviceMap:serviceMapType = {}
+  Object.keys(apiJson).forEach(key => {
+    const [url, method] = apiJson[key]
+    serviceMap[key] = ({ data, params, ...config } = {}) => fetch({ ...fetchConfig, ...config, url, method, data, params }).then(({ data }:any) => data)
+  })
+
+  return (apiKey:string) => {
+    const service = serviceMap[apiKey]
+    if (!service) {
+      const errMsg = `缺少 ${apiKey} 服务，请在管理后台配置对应的服务`
+      ElMessage.error(errMsg)
+      return () => Promise.reject(new BaseListFetchParamsError(errMsg))
+    }
+    return service
+  }
  }
  

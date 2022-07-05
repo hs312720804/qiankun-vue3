@@ -54,13 +54,13 @@ function render(props = {}) {
 }
 
 
-// 因为es模块加载与qiankun的实现方式有些冲突，
-// 所以使用本插件实现的qiankun微应用里面没有运行在 js 沙盒中。
-// 所以在不可避免需要设置window上的属性时，尽量显示的操作js沙盒，否则可能会对其它子应用产生副作用。qiankun沙盒使用方式
+// 因为 es 模块加载与 qiankun 的实现方式有些冲突，
+// 所以使用本插件实现的 qiankun 微应用里面没有运行在 js 沙盒中。
+// 所以在不可避免需要设置 window 上的属性时，尽量显示的操作 js 沙盒，否则可能会对其它子应用产生副作用。
 
 // qiankun 官方是以 window.__POWERED_BY_QIANKUN__ 来判断当前是否为 qiankun 环境下，
 // 而该插件引用之后是通过 qiankunWindow.__POWERED_BY_QIANKUN__来判断
 
 if (!qiankunWindow.__POWERED_BY_QIANKUN__) {
-  render({});
+  render({})
 }

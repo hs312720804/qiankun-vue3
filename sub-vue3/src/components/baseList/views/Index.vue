@@ -6,10 +6,10 @@
   <div class="page-code--child">
     <div style="position:relative">
       <List
+        v-if="menuDetail"
         ref="list"
         :style="{'display': isShowList ? 'block' : 'none'}"
         :menu="menuDetail"
-        v-if="menuDetail"
         @action="handleAction"
       ></List>
 
@@ -20,56 +20,65 @@
         :menu-id="menuId"
         :menu="menuDetail"
         :template="template"
-        :content-props="contentProps"
         :title="title"
         :option-type="optionType"
         :selected="selected"
         @upsert-end="handleUpsertEnd"
         @go-back="goBack"
       ></Page>
+
+      <input type="text"/>
+      <input type="checkbox"/>
+      <input type="radio"/>
+      <input type="submit"/>
+      <input type="image"/>
+      
+
     </div>
   </div>
 </template>
 <script setup lang="ts">
-  import { toRefs, getCurrentInstance, ref, provide, nextTick } from 'vue'
+  import { toRefs, ref, provide } from 'vue'
   import List from './List.vue'
   import Page from './Page.vue'
   import { evil } from '@/utils/consts.js'
+  import { MenuDetailType } from '@/services/menu'
 
-  const props = defineProps({
-    menuId: {
-      type: Number
-    },
-    type: {
-      type: String,
-      default: ''
-    },
-    fetchMethod: {
-      type: Function,
-      default: () => {}
-    },
-    menuDetailMethod: {
-      type: Function,
-      default: () => {}
-    },
-    handleResource: {
-      type: Object,
-      default: () => {
-        return {
-          pages: {},
-          dialogs: {},
-          todo: {},
-          renderMethods: {}
-        }
-      }
-    }
-  })
-  console.log('props=====', props)
+
+
+  // const props = defineProps<{
+  //   href?: string
+  //   noIcon?: boolean
+  // }>()
   // -------初始化---------start
   // const instance = getCurrentInstance() as any; //获取上下文实例，ctx = vue2的this
   // const globalProperties = instance.appContext.config.globalProperties
+  // interface propsType {
+  //   menuId: Ref<Number>
+  //   menuDetailMethod?: Ref<() => {}>
+  //   fetchMethod?: Ref<() => {}>
+  //   handleResource?: Ref<handleResourceType>
+  // }
+  
+  
+  interface idType {
+    id: number
+  }
+  interface dataType {
+    data: MenuDetailType
+  }
+  const props = defineProps<{
+    menuId: number
+    type: string
+    fetchMethod: () => {}
+    menuDetailMethod: ({ id }: idType ) => Promise<dataType>
+    // menuDetailMethod: () => {}
+    handleResource?: handleResourceType
+  }>()
+  
+  
 
-  const { menuId, menuDetailMethod, fetchMethod, handleResource } = toRefs(props) as any //  获取 props 传参
+  const { menuId, menuDetailMethod, fetchMethod, handleResource } = toRefs(props) //  获取 props 传参
 
   let isShowList = ref(true)
   let id = ref()
@@ -80,10 +89,30 @@
   let optionType = ref('')
   let selected = ref([])
   // let dialogChang = ref(false) // 弹窗数据改
-  let menuDetail = ref()
+  let menuDetail = ref<MenuDetailType>()
   let primaryKey = ref<string>('')// 主键
 
-  const disposalField = (fields, useType) => {
+  
+  // provide
+  provide('primaryKey', primaryKey)
+  provide('disposalField', disposalField)
+  provide('fetchMethod', fetchMethod)
+  provide('handleResource', handleResource)
+
+  // provide('primaryKey', primaryKey)
+  // provide('disposalField', disposalField)
+  // provide('fetchMethod', fetchMethod)
+  // provide('handleResource', handleResource)
+
+  
+  fetchMenuData(menuId.value)
+  // window.location.assign(window.location.origin + suggestionUrl)
+  // window.location.href = currentUrl
+  // window.location.assign(url) 和 window.location.href=url实现功能是一样的，都是跳转到网址，只是用法稍微不同。
+  // 最大的不同是，assign 会添加记录到浏览历史，点击后退可以返回之前页面。
+
+  // -------初始化---------end
+  function disposalField (fields: tableHeaderItemType[], useType: number) {
     return fields.filter((item) => {
       if ('use' in item && item.use.length > 0) {
         const bool = item.use.some((num) => {
@@ -98,17 +127,11 @@
     })
   }
 
-  provide('primaryKey', primaryKey)
-  provide('disposalField', disposalField)
-  provide('fetchMethod', fetchMethod)
-  provide('handleResource', handleResource)
 
-  fetchMenuData(menuId.value)
 
-  // -------初始化---------end
 
-  function fetchMenuData (id: Number) {
-    menuDetailMethod.value({ id }).then(({ data }: any) => {
+  function fetchMenuData (id: number) {
+    menuDetailMethod.value({ id }).then(({ data }) => {
       menuDetail.value = data
       const fields = evil(menuDetail.value.fieldsJson)
       const primaryField = fields.filter((field: any) => {
@@ -126,7 +149,7 @@
     list.value.fetchData()
   }
 
-  const dialogForm = ref()
+  // const dialogForm = ref()
 
   // const handleOption = (data) => {
   //   template.value = data.option[2]
@@ -195,11 +218,10 @@
   //   this.dialogChang = msg
   // }
 
-  
 </script>
 
 <style lang="stylus" scoped>
-:deep(.el-dialog__header){
+:deep(.el-dialog__header) {
   border-bottom 1px solid #EBEEF5
 }
 :deep(.el-dialog__body)

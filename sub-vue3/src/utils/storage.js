@@ -43,4 +43,4 @@ class Storage {
       })
   }
 }
-export default new Storage(`${process.env.VUE_APP_PROJECT_CODE}/dev`, window.localStorage)
+export default new Storage(`${import.meta.env.VITE_APP_PROJECT_CODE}/dev`, window.localStorage)
