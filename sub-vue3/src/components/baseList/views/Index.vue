@@ -106,10 +106,6 @@
 
   
   fetchMenuData(menuId.value)
-  // window.location.assign(window.location.origin + suggestionUrl)
-  // window.location.href = currentUrl
-  // window.location.assign(url) 和 window.location.href=url实现功能是一样的，都是跳转到网址，只是用法稍微不同。
-  // 最大的不同是，assign 会添加记录到浏览历史，点击后退可以返回之前页面。
 
   // -------初始化---------end
   function disposalField (fields: tableHeaderItemType[], useType: number) {

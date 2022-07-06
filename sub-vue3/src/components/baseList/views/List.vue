@@ -89,7 +89,7 @@
 
   const primaryKey = inject('primaryKey')
   const disposalField = inject('disposalField') as (a: tableHeaderItemType[], b: number) => {}
-  const fetchMethod = inject('fetchMethod')
+  const fetchMethod = inject('fetchMethod', () => {} )
   const handleResource = inject('handleResource', {} as handleResourceType)
 
   // console.log('primaryKey===', primaryKey)
