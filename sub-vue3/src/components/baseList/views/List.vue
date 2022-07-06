@@ -77,7 +77,7 @@
   import { useRoute } from 'vue-router'
   import { ref, reactive, toRefs, inject } from 'vue'
   import { evil } from '@/utils/consts.js'
-  import {baseListFetch} from '@/utils/listFetch.js'
+  import { baseListFetch } from '@/utils/listFetch'
   // import Index from './Index.vue'
   // import helloword from './HelloWorld.vue'
   import useBaseList from './useBaseList'
@@ -87,10 +87,10 @@
   import useToDo from './mixin/listActions'
   import { MenuDetailType} from '@/services/menu'
 
-  const primaryKey = inject<string>('primaryKey')
-  const disposalField = inject<() => any>('disposalField')
-  const fetchMethod = inject<() => any>('fetchMethod')
-  const handleResource = inject<handleResourceType>('handleResource')
+  const primaryKey = inject('primaryKey')
+  const disposalField = inject('disposalField') as (a: tableHeaderItemType[], b: number) => {}
+  const fetchMethod = inject('fetchMethod')
+  const handleResource = inject('handleResource', {} as handleResourceType)
 
   // console.log('primaryKey===', primaryKey)
   // console.log('disposalField===', disposalField)
@@ -114,8 +114,17 @@
   
   const $route = useRoute()
 
-  let filterFields = ref([])
-  let filter = reactive({})
+  interface newOptionsType {
+    label: string 
+    value: string | number
+    item: object
+  }
+  interface filterFieldsType {
+    options: newOptionsType[]
+  }
+
+  let filterFields = ref<filterFieldsType[]>([])
+  let filter = reactive<apiType>({}) 
   // let isExpand = ref(false)
   let filterExpand = ref(false)
   // let filterType = ref<string>('')
@@ -161,19 +170,21 @@
     handleFilterChange,
   } = useBaseList(menu.value, primaryKey, table, handleResource, fetchData, handleTodo, handleAction )
 
-  console.log('listDataMap', listDataMap)
-  interface newOptionsType {
-    label: string 
-    value: string | number
-    item: object
-  }
   /**
    * 处理选项filterFields数据
    * @param options = this.filterFields
    * */
-
+  interface apiOptionsType{
+    resourceIndex: number
+    labelKey: string
+    valueKey: string | number
+    item: tableHeaderItemType
+    httpData: {
+      [k: string]: any
+    }
+  }
   const handleOptions = async (options: tableHeaderItemType[]) => {
-    let apiOptions = []
+    let apiOptions:apiOptionsType[] = []
     for (let i = 0; i < options.length; i++) {
       const item = options[i]
       if (item.optionsApi && item.optionsApi.use) {
@@ -204,14 +215,14 @@
     for (let i = 0; i < apiOptions.length; i++) {
       const option = apiOptions[i]
       const newOptions = [] as newOptionsType[]
-      option.httpData.forEach(item => {
+      option.httpData.forEach((item: any) => {
         newOptions.push({
           label: item[option.labelKey],
           value: item[option.valueKey],
           item
         })
       })
-      filterFields[option.resourceIndex].options = newOptions
+      filterFields.value[option.resourceIndex].options = newOptions
     }
   }
 
@@ -252,13 +263,12 @@
 
   function getListData (url:string, params) {
     return new Promise((resolve, reject) => {
-      
       baseListFetch({
         apiJson: api.value,
         apiKey: 'list',
         params,
         fetchMethod: fetchMethod.value
-      }).then(({ data }) => {
+      }).then(({ data }: any) => {
         console.log('data===', data)
         let listData = listDataMap.value ? _.get(data, listDataMap.value) : data // 获取映射数据
         if (listData.list.length < 1 && listData.total > 0) {
@@ -270,7 +280,7 @@
           pagination.total = listData.total
         }
 
-      }).catch(e => {
+      }).catch((e: Error) => {
         ElNotification({
           title: '获取数据失败',
           type: 'error',
@@ -288,7 +298,7 @@
 
   type BaseListRow = { [key: string]: any; }
   // 新增、批量删除等按钮的方法（包括列表操作列上的删除、预览等按钮）
-  const toDoActions = useToDo<BaseListRow>({ fetchData, api: api.value, selected: selected.value, goBack, primaryKey: primaryKey.value })
+  const toDoActions = useToDo<BaseListRow>({ fetchData, api: api.value, selected: selected, goBack, primaryKey: primaryKey.value })
 
   // 在当前页面就能实现的功能:   主要是批量删除、删除、编辑等 
   function handleTodo (data: any) {
@@ -301,7 +311,7 @@
     emits('go-back')
   }
 
-  function handlefilterExpand (msg) {
+  function handlefilterExpand (msg: string) {
     filterExpand = msg
   }
   // function handleExpand (val) {
@@ -325,7 +335,8 @@
       page: pagination.currentPage,
       pageSize: pagination.pageSize
     }
-    getListData(api.list, { ...filter, ...params })
+    // 有可能有问题 api.value.list
+    getListData(api.value.list, { ...filter, ...params })
   }
 
 

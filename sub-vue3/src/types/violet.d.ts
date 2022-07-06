@@ -67,10 +67,11 @@ interface tableType {
 }
 
 interface handleResourceType {
-  pages: any,
-  dialogs: any,
-  todo: any,
-  renderMethods: any
+  pages?: any,
+  dialogs?: any,
+  todo?: any,
+  renderMethods?: any
+  // [key: string]: any
 }
 
 type optionsType = {
@@ -111,4 +112,8 @@ interface serviceMapType {
   // updateAppIdSecret?: (data, params, ...config) => {}
 
   [key: string]: (data, params, ...config) => {}, // 字段扩展声明
+}
+
+interface apiType {
+  [k: string]: any
 }

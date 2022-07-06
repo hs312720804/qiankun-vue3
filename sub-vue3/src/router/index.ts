@@ -23,8 +23,8 @@ const router = createRouter({
 })
 
 // 初始化站点信息
-router.beforeEach(async () => {
-  return true
-})
+// router.beforeEach(async () => {
+//   return true
+// })
 
 export default router

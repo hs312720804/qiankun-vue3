@@ -90,7 +90,7 @@
   let selected = ref([])
   // let dialogChang = ref(false) // 弹窗数据改
   let menuDetail = ref<MenuDetailType>()
-  let primaryKey = ref<string>('')// 主键
+  let primaryKey = ref('')// 主键
 
   
   // provide

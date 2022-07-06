@@ -9,7 +9,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "lib": ["es6", "esnext", "dom"],
+    "lib": ["esnext", "dom"],
     "isolatedModules": true,
     "noErrorTruncation": true,
     "skipLibCheck": true,

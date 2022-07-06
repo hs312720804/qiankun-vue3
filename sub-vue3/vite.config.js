@@ -28,8 +28,10 @@ import qiankun from 'vite-plugin-qiankun';
 import { resolve  } from 'path';
 import { name } from './package.json'
 // const useDevMode = true
-const BACKEND = import.meta.BACKEND || '172.20.151.12:9080'
-// const BACKEND = process.env.BACKEND || '172.20.151.197:9080'
+// const BACKEND = import.meta.BACKEND || '172.20.151.12:9080' // 开发环境
+// const BACKEND = process.env.BACKEND || '172.20.151.211:80' // 对内测试环境
+const BACKEND = process.env.BACKEND || '172.20.151.197:9080' // 对接环境
+
 const PORT = import.meta.PORT || '5001'
 const HOST = import.meta.HOST || '127.0.0.1'
 

@@ -29,7 +29,7 @@
     }
   })
 
-  const handleResource = reactive({
+  const handleResource = reactive<handleResourceType>({
     pages
     // dialogs,
     // todo,

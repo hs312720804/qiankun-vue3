@@ -37,10 +37,10 @@
           active-text-color="#eb603a"
         >
           <el-menu-item index="/directory" @click="getRouter('/directory')">
-            <el-icon><icon-menu /></el-icon>
+            <el-icon><IconMenu /></el-icon>
             <template #title>目录管理</template>
           </el-menu-item>
-          <el-menu-item index="/" @click="getRouter('/')">
+          <el-menu-item index="a" @click="getRouter('/')">
             <el-icon><setting /></el-icon>
             <template #title>主页</template>
           </el-menu-item>
@@ -72,7 +72,8 @@
 
 
   // -------初始化---------start
-  const menuId = ref('133')
+  // const menuId = ref('133')
+  const menuId = ref('131')
   const isCollapse = ref(false)
   const isShowLogin = ref(false)
   const reLoginMsg = ref('')

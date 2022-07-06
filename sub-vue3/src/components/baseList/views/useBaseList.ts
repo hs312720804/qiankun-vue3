@@ -1,4 +1,4 @@
-import { ref, reactive, computed, nextTick, watch, h } from 'vue'
+import { ref, reactive, computed, nextTick, h } from 'vue'
 import { evil } from '@/utils/consts.js'
 import { ElTag, ElImage } from 'element-plus'
 import { renderMethods } from './renderMethods'
@@ -12,7 +12,7 @@ import { MenuDetailType } from '@/services/menu'
 
 // 为了解决这些问题，我们添加了一种通过逻辑关注点组织代码的新方法：组合式 API。
 
-export default function useUserRepositories(menu: MenuDetailType, primaryKey: string, table: tableType, handleResource: handleResourceType, fetchData:Function, handleTodo:Function, handleAction:Function) {
+export default function useUserRepositories(menu: MenuDetailType, primaryKey: any, table: tableType, handleResource: handleResourceType, fetchData:Function, handleTodo:Function, handleAction:Function) {
 
   // const repositories = ref([])
   // const getUserRepositories = async () => {
@@ -28,7 +28,8 @@ export default function useUserRepositories(menu: MenuDetailType, primaryKey: st
 
   let pagination = reactive({
     pageSize: 10,
-    currentPage: 1
+    currentPage: 1,
+    total: 0
   })
 
   let renderMethodsUtils = computed(() => {
@@ -95,7 +96,8 @@ export default function useUserRepositories(menu: MenuDetailType, primaryKey: st
 
     return header
   })
-  let api = computed(() => {
+  
+  let api = computed<apiType>(() => {
     return evil(menu.apiJson)
   })
   // 权限资源
@@ -118,17 +120,17 @@ export default function useUserRepositories(menu: MenuDetailType, primaryKey: st
     })
   }
 
-  function handleSizeChange (val) {
+  function handleSizeChange (val: any) {
     // this.pageSize = val
     fetchData()
   }
   // 页码变更, 如第1页变成第2页时,val=2
-  function handleCurrentChange (val) {
+  function handleCurrentChange (val: any) {
     // this.currentPage = val
     fetchData()
   }
   
-  function handleFilterChange (type) {
+  function handleFilterChange (type: string) {
     if (type === 'query') {
       if (pagination) {
         pagination.currentPage = 1

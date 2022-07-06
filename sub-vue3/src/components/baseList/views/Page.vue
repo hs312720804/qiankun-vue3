@@ -22,9 +22,9 @@
 <script setup lang="ts">
 import DefaultPages from './pages/index'
 import { ElMessage } from 'element-plus'
-import { inject, computed, ref, Ref, toRefs } from 'vue'
+import { inject, computed, ref, toRefs } from 'vue'
 
-const handleResource = inject<Ref<handleResourceType>>('handleResource')
+const handleResource = inject<handleResourceType>('handleResource')
 
 const props = defineProps({
   id: {
