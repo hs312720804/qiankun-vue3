@@ -2,7 +2,7 @@ import { initGlobalState } from 'qiankun';
 import Vue from 'vue'
 
 //父应用的初始state
-// Vue.observable是为了让initialState变成可响应：https://cn.vuejs.org/v2/api/#Vue-observable。
+// Vue.observable是为了让 initialState 变成可响应：https://cn.vuejs.org/v2/api/#Vue-observable。
 let initialState = Vue.observable({
   user: {},
 });

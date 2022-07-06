@@ -32,22 +32,8 @@ if (!window.__POWERED_BY_QIANKUN__) {
  */
 
 export async function mount (props) {
-  console.log('[vue] props from main framework', props)
-  // commonStore.globalRegister(store, props)
-  // console.log('store===', store)
-  console.log('props===', props)
   globalRegister(store, props)
   render(props)
-
-  // const state2 = props.getGlobalState()
-  // console.log('state2=========>', state2)
-
-  // props.onGlobalStateChange((state, prev) => {
-  //   // state: 变更后的状态; prev 变更前的状态
-  //   console.log('1111111============' ,state, prev);
-    
-  // });
-  // props.setGlobalState({user: {name: '李四'}});
 
 }
 

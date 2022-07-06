@@ -1,7 +1,7 @@
 /**
  * 
  * @param {vuex实例} store 
- * @param {qiankun下发的props} props 
+ * @param {qiankun下发的 props} props 
  */
 function registerGlobalModule(store, props = {}) {
   if (!store || !store.hasModule) {
@@ -44,7 +44,7 @@ function registerGlobalModule(store, props = {}) {
     };
     store.registerModule('global', globalModule);
   } else {
-    // 每次mount时，都同步一次父应用数据
+    // 每次 mount 时，都同步一次父应用数据
     store.dispatch('global/initGlobalState', initState);
   }
 }

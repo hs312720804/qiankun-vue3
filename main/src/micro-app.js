@@ -38,7 +38,7 @@ const apps = microApps.map(item => {
     container: '#subapp-viewport', // 子应用挂载的div
     props: {
       routerBase: item.activeRule, // 下发基础路由
-      getGlobalState: store.getGlobalState, // 下发getGlobalState方法
+      getGlobalState: store.getGlobalState, // 下发 getGlobalState 方法
       mainState
     },
   }
