@@ -15,12 +15,6 @@
     <h1>sub-vue</h1>
     <h1>sub-vue</h1>
     
-    sub-vue
-    sub-vue
-    sub-vue
-    sub-vue
-    sub-vue
-    sub-vue
   </div>
 </template>
 
@@ -37,7 +31,7 @@ export default {
       user: state => {
         console.log('state==>', state)
         return state.user
-      }, // 获取父应用的user信息
+      }, // 获取父应用的 user 信息
     }),
   },
   created() {

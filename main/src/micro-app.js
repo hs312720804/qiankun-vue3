@@ -22,14 +22,23 @@ const microApps = [
     }
   },
   {
-    name: 'sub-vue3',
+    name: 'sub-vue3-project',
     entry: '//localhost:5001',
+    activeRule: '/sub-vue3-project',
+    // container: '#subapp-viewport', // 子应用挂载的div
+    props: {
+      routerBase: '/sub-vue3-project', // 下发路由给子应用，子应用根据该值去定义qiankun环境下的路由
+    }
+  },
+  {
+    name: 'sub-vue3',
+    entry: '//localhost:3333',
     activeRule: '/sub-vue3',
     // container: '#subapp-viewport', // 子应用挂载的div
     props: {
       routerBase: '/sub-vue3', // 下发路由给子应用，子应用根据该值去定义qiankun环境下的路由
     }
-  }
+  },
 ]
 
 const apps = microApps.map(item => {

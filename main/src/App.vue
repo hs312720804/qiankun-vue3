@@ -8,7 +8,10 @@
       <ul class="sub-apps">
         <li v-for="item in microApps" :class="{active: item.activeRule === current}" :key="item.name" @click="goto(item)">{{ item.name }}</li>
       </ul>
-      <div class="userinfo">主应用的state：{{ JSON.stringify(state) }}</div>
+      
+      <div class="userinfo">
+        <button @click="update">改变名称</button>
+        主应用的state：{{ JSON.stringify(state) }}</div>
     </div>
     <div id="subapp-viewport"></div>
   </div>
@@ -40,6 +43,9 @@ export default {
   },
   components: {},
   methods: {
+    update() {
+      store.setGlobalState({'user': {name: ('李四' + Math.round(Math.random() * 100))}})
+    },
     goto (item) {
       history.pushState(null, item.activeRule, item.activeRule)
       // this.current = item.name

@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
-    <link rel="icon" href="http://127.0.0.1:3333/favicon.ico">
+    <link rel="icon" href="http://127.0.0.1:5001/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vite App</title>
-    <script crossorigin="">import('http://127.0.0.1:3333/assets/index.f7529574.js').finally(() => {
+    <script crossorigin="">import('http://127.0.0.1:5001/assets/index.95e8e1bb.js').finally(() => {
             
-    const qiankunLifeCycle = window.moudleQiankunAppLifeCycles && window.moudleQiankunAppLifeCycles['sub-vue3'];
+    const qiankunLifeCycle = window.moudleQiankunAppLifeCycles && window.moudleQiankunAppLifeCycles['sub-vue3-project'];
     if (qiankunLifeCycle) {
       window.proxy.vitemount((props) => qiankunLifeCycle.mount(props));
       window.proxy.viteunmount((props) => qiankunLifeCycle.unmount(props));
@@ -14,7 +14,7 @@
     }
   
           })</script>
-    <link rel="stylesheet" href="http://127.0.0.1:3333/assets/index.c67a7329.css">
+    <link rel="stylesheet" href="http://127.0.0.1:5001/assets/index.019b8068.css">
   </head>
   <body>
     <div id="app"></div>
@@ -34,8 +34,8 @@
   const update = createDeffer('update');
 
   ;(global => {
-    global.qiankunName = 'sub-vue3';
-    global['sub-vue3'] = {
+    global.qiankunName = 'sub-vue3-project';
+    global['sub-vue3-project'] = {
       bootstrap,
       mount,
       unmount,

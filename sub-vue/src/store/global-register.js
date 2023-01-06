@@ -2,6 +2,7 @@
  * 
  * @param {vuex实例} store 
  * @param {qiankun下发的 props} props 
+ * // 从生命周期 mount 中获取通信方法，props默认会有 onGlobalStateChange 和 setGlobalState 两个 api
  */
 function registerGlobalModule(store, props = {}) {
   if (!store || !store.hasModule) {
