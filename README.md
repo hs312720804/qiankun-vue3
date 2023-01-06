@@ -18,7 +18,7 @@ npm run install
 
 一键启动所有所有应用
 ```
-npm start
+npm run start
 ```
 
 <!-- 通过 [http://localhost:8080/](http://localhost:8080/) 访问主应用。 -->
