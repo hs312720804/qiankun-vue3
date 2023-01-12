@@ -3,6 +3,7 @@
 const name = 'sub-vue'
 
 module.exports = {
+  transpileDependencies: ['common'],
   configureWebpack: {
     output: {
       library: `${name}-[name]`,
@@ -15,5 +16,6 @@ module.exports = {
     headers: {
       'Access-Control-Allow-Origin': '*' // 主应用获取子应用时跨域响应头
     }
-  }
+  },
+  
 }

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
-import globalRegister from './store/global-register'
+// import globalRegister from './store/global-register'
+import { store as commonStore } from 'common'
 import store from './store/index'
 
 Vue.config.productionTip = false
@@ -22,7 +23,7 @@ if (!window.__POWERED_BY_QIANKUN__) {
  * bootstrap 只会在微应用初始化的时候调用一次，下次微应用重新进入时会直接调用 mount 钩子，不会再重复触发 bootstrap。
  * 通常我们可以在这里做一些全局变量的初始化，比如不会在 unmount 阶段被销毁的应用级别的缓存等。
  */
- export async function bootstrap () {
+export async function bootstrap () {
   console.log('[vue] vue app bootstraped')
 }
 
@@ -32,7 +33,7 @@ if (!window.__POWERED_BY_QIANKUN__) {
  */
 
 export async function mount (props) {
-  globalRegister(store, props)
+  commonStore.globalRegister(store, props)
   render(props)
 
 }
