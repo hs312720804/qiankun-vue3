@@ -1,4 +1,6 @@
-<template>举个栗子举个栗子举个栗子举个栗子</template>
+<template>
+  <div>举个栗子举个栗子举个栗子举个栗子</div>
+</template>
 
 <script>
 // import { inject } from 'vue'

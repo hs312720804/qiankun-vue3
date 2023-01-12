@@ -2,7 +2,7 @@
   <div class="hello">
     <hr/>
     <button @click="update">改变名称</button>
-    {{ JSON.stringify(user) }}
+    子应用的state：{{ JSON.stringify(user) }}
     <h1>sub-vue</h1>
     <h1>sub-vue</h1>
     <h1>sub-vue</h1>
@@ -27,12 +27,12 @@ export default {
     // user: this.state
   },
   computed: {
-    ...mapState('global', {
-      user: state => {
-        console.log('state==>', state)
-        return state.user
-      }, // 获取父应用的 user 信息
-    }),
+    ...mapState('global', ['user'])
+    //   user: state => {
+    //     console.log('state==>', state)
+    //     return state.user
+    //   }, // 获取父应用的 user 信息
+    // }),
   },
   created() {
   },
