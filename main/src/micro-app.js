@@ -14,7 +14,7 @@ Object.defineProperties(mainState, {
 const microApps = [
   {
     name: 'sub-vue',
-    entry: '//localhost:8081/',
+    entry: '//localhost:2222/',
     activeRule: '/sub-vue',
     // container: '#subapp-viewport', // 子应用挂载的div
     props: {
