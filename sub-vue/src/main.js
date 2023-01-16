@@ -35,7 +35,6 @@ export async function bootstrap () {
 export async function mount (props) {
   commonStore.globalRegister(store, props)
   render(props)
-
 }
 
 /**

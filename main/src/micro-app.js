@@ -48,6 +48,7 @@ const apps = microApps.map(item => {
     props: {
       routerBase: item.activeRule, // 下发基础路由
       getGlobalState: store.getGlobalState, // 下发 getGlobalState 方法
+      // onGlobalStateChange: store.onGlobalStateChange,
       mainState
     },
   }

@@ -8,6 +8,7 @@
     "install": "npm-run-all --serial install:*",
     "install:main": "cd main && npm i",
     "install:sub-vue": "cd sub-vue && npm i",
+    "install:sub-vue3": "cd sub-vue3 && npm i",
     "install:sub-vue3-project": "cd sub-vue3-project && npm i",
     "start": "npm-run-all --parallel start:*",
     "start:sub-vue": "cd sub-vue && npm start",
