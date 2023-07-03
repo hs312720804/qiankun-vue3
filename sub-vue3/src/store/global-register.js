@@ -29,7 +29,6 @@ function registerGlobalModule (store, props = {}) {
     props.onGlobalStateChange((newState) => {
       setPiniaState(newState)
     }, true)
-
   }
 
   

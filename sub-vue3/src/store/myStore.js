@@ -5,7 +5,7 @@ export const useGlobalStore = defineStore('global', {
     user: {
       name: 'hs33336666'
     },
-    props: undefined
+    props: undefined // 保存子应用改变父应用数据的方法
   }),
   actions: {
     // // 通知父应用

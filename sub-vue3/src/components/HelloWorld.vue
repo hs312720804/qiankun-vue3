@@ -78,10 +78,12 @@ function update () {
   const data = {
     user: {name: ('李四' + Math.round(Math.random() * 100))}
   }
+  // 设置子应用的数据
   globalStore.setGlobalState(data)
 
   console.log('666666globalStore===', globalStore)
   if (globalStore.props && globalStore.props.setGlobalState) {
+    // 设置父应用的数据
     globalStore.props.setGlobalState(data)
   }
 }
@@ -89,11 +91,13 @@ function update () {
 </script>
 
 <template>
+  <k-button plain>k-button 按钮</k-button>
     <div>
       user: {{ user  }}  
       <el-button type="primary" @click="update">改变 vite 子应用名称 </el-button>
     </div> 
     <div>count: {{ counter  }}</div>
+    <div>env: {{ store.env  }}</div>
     <!-- <div>
       <button type="button" @click="add">增加</button>
     </div>
