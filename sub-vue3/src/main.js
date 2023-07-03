@@ -9,6 +9,8 @@ import pinia from '@/store'
 import registerGlobalModule from '@/store/global-register'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import Button from 'kitty-ui-hs'
+console.log('Button', Button)
 
 // let router = null;
 let instance = null;
@@ -44,7 +46,7 @@ function render(props = {}) {
   
   
   instance = createApp(App);
-  instance.use(pinia).use(ElementPlus);
+  instance.use(pinia).use(ElementPlus).use(Button);
   
   instance.mount(container ? container.querySelector("#app") : "#app");
   
