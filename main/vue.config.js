@@ -5,7 +5,7 @@ module.exports = {
     port: '8066',
     headers: {
       'Access-Control-Allow-Origin': '*'
-    },
+    }
   },
   transpileDependencies: ['common']
 

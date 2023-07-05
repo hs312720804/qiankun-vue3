@@ -1,9 +1,9 @@
-
 <script setup>
 import { storeToRefs } from 'pinia'
 import pinia from '@/store'
 import { useStore, useGlobalStore } from '../store/myStore'
 import { watch } from 'vue'
+
 // import registerGlobalModule from '@/store/global-register'
 
 // import {
@@ -19,11 +19,11 @@ defineProps({
   msg: String
 })
 
-const store  = useStore()
-let { counter, banners } = storeToRefs(store)
+const store = useStore()
+const { counter, banners } = storeToRefs(store)
 
 const globalStore = useGlobalStore()
-let { user } = storeToRefs(globalStore)
+const { user } = storeToRefs(globalStore)
 // const globalStore = registerGlobalModule()
 
 // console.log('globalStore------------>', globalStore)
@@ -45,9 +45,9 @@ let { user } = storeToRefs(globalStore)
 //   // if (state.baseUrl === afterChangeUrl) isShow.value = true
 //   // else isShow.value = false
 // }, {detached: false})  //第二个参数options对象，是各种配置参数
-  //detached:布尔值，默认是 false，正常情况下，当订阅所在的组件被卸载时，订阅将被停止删除，
-  // 如果设置detached值为 true 时，即使所在组件被卸载，订阅依然在生效
-  //参数还有immediate，deep，flush等等参数 和vue3 watch的参数是一样的，多的就不介绍了，用到再看文档吧
+// detached:布尔值，默认是 false，正常情况下，当订阅所在的组件被卸载时，订阅将被停止删除，
+// 如果设置detached值为 true 时，即使所在组件被卸载，订阅依然在生效
+// 参数还有immediate，deep，flush等等参数 和vue3 watch的参数是一样的，多的就不介绍了，用到再看文档吧
 
 // watch(
 //   pinia.state,
@@ -74,9 +74,8 @@ function fetch () {
   store.fetchHomeMultidata()
 }
 function update () {
-  
   const data = {
-    user: {name: ('李四' + Math.round(Math.random() * 100))}
+    user: { name: ('李四' + Math.round(Math.random() * 100)) }
   }
   // 设置子应用的数据
   globalStore.setGlobalState(data)
@@ -93,9 +92,9 @@ function update () {
 <template>
   <k-button plain>k-button 按钮</k-button>
     <div>
-      user: {{ user  }}  
+      user: {{ user  }}
       <el-button type="primary" @click="update">改变 vite 子应用名称 </el-button>
-    </div> 
+    </div>
     <div>count: {{ counter  }}</div>
     <div>env: {{ store.env  }}</div>
     <!-- <div>
@@ -111,7 +110,7 @@ function update () {
       <button type="button" @click="fetch">fetch</button>
     </div> -->
     <!-- <el-input v-model="counter" placeholder="Please input" style="width: 40px" /> -->
-    
+
     <el-button type="primary" @click="add">增加</el-button>
     <el-button type="success" @click="add10">增加10</el-button>
     <el-button type="info" @click="reset">重置</el-button>
@@ -137,7 +136,6 @@ function update () {
     |
     <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Documentation</a>
   </p> -->
-
 
   <!-- <p>
     Edit
