@@ -8,7 +8,7 @@ module.exports = {
     output: {
       library: `${name}-[name]`,
       libraryTarget: 'umd',
-      jsonpFunction: `webpackJsonp_${name}`,
+      jsonpFunction: `webpackJsonp_${name}`
     }
   },
   devServer: {
@@ -16,6 +16,6 @@ module.exports = {
     headers: {
       'Access-Control-Allow-Origin': '*' // 主应用获取子应用时跨域响应头
     }
-  },
-  
+  }
+
 }
