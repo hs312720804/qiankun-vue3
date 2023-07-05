@@ -1,6 +1,6 @@
 // 参考于： https://juejin.cn/post/7078467067887747080
+// https://juejin.cn/post/7054009091961651237
 // https://github.com/tengmaoqing/vite-plugin-qiankun
-
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'

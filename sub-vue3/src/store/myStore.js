@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 export const useGlobalStore = defineStore('global', {
   state: () => ({
     user: {
-      name: 'hs33336666'
+      name: ''
     },
     props: undefined // 保存子应用改变父应用数据的方法
   }),
@@ -16,9 +16,6 @@ export const useGlobalStore = defineStore('global', {
     // },
     setGlobalState (newState) {
       this.$patch(state=> {
-        // state = initState
-        console.log('111=', state)
-        console.log('222initState=', newState)
         state = Object.assign(state, newState);
       })
 

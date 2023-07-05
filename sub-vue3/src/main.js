@@ -46,9 +46,9 @@ function render(props = {}) {
   
   
   instance = createApp(App);
-  instance.use(pinia).use(ElementPlus).use(Button);
+  instance.use(pinia).use(ElementPlus).use(Button)
   
-  instance.mount(container ? container.querySelector("#app") : "#app");
+  instance.mount(container ? container.querySelector("#app") : "#app")
   
   registerGlobalModule(pinia, props)
   

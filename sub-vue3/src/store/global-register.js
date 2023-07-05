@@ -1,8 +1,8 @@
 import { useGlobalStore } from '@/store/myStore'
 /**
  * 
- * @param {vuex实例} store 
- * @param {qiankun下发的props} props 
+ * @param {pinia实例} store 
+ * @param {qiankun下发的 props } props 
  */
 function registerGlobalModule (store, props = {}) {
   console.log('store--->', store)
@@ -19,7 +19,7 @@ function registerGlobalModule (store, props = {}) {
 
   // 设置子应用的 state 值
   setPiniaState(initState)
-  setPiniaState({props})
+  setPiniaState({ props })
 
   // // 通知父应用
   // emitGlobalState(props)

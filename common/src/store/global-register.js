@@ -2,8 +2,11 @@
 /**
  * 
  * @param {vuex实例} store 
- * @param {qiankun下发的props} props 
+ * @param {qiankun下发的 props } props 
  */
+
+// qiankun通过 initGlobalState, onGlobalStateChange, setGlobalState 实现主应用的全局状态管理
+
 function registerGlobalModule (store, props = {}) {
 
   if (!store || !store.hasModule) {
