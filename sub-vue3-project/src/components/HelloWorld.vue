@@ -11,7 +11,7 @@ export default {
   components: {
     MyMarker
   },
-  setup() {
+  setup () {
     const location = ref('North Pole')
     const geolocation = reactive({
       longitude: 90,

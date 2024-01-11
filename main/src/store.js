@@ -1,11 +1,11 @@
-import { initGlobalState } from 'qiankun';
+import { initGlobalState } from 'qiankun'
 import Vue from 'vue'
 
-//父应用的初始state
+// 父应用的初始state
 // Vue.observable是为了让 initialState 变成可响应：https://cn.vuejs.org/v2/api/#Vue-observable。
-let initialState = Vue.observable({
-  user: {name: "李四80"}
-});
+const initialState = Vue.observable({
+  user: { name: '李四80' }
+})
 
 const actions = initGlobalState(initialState)
 
@@ -13,7 +13,7 @@ actions.onGlobalStateChange((newState, prev) => {
   // state: 变更后的状态; prev 变更前的状态
   console.log('main change', JSON.stringify(newState), JSON.stringify(prev))
 
-  for (let key in newState) {
+  for (const key in newState) {
     initialState[key] = newState[key]
   }
 })
@@ -25,6 +25,6 @@ actions.getGlobalState = (key) => {
   return key ? initialState[key] : initialState
 }
 
-export default actions;
+export default actions
 // actions.setGlobalState({user: {name: '黄三'}})
 // actions.offGlobalStateChange()

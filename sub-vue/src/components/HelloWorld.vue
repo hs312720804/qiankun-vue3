@@ -14,7 +14,7 @@
     <h1>sub-vue</h1>
     <h1>sub-vue</h1>
     <h1>sub-vue</h1>
-    
+
   </div>
 </template>
 
@@ -23,7 +23,7 @@ import { mapActions, mapState } from 'vuex'
 export default {
   name: 'HelloWorld',
   props: {
-    msg: String,
+    msg: String
     // user: this.state
   },
   computed: {
@@ -34,12 +34,12 @@ export default {
     //   }, // 获取父应用的 user 信息
     // }),
   },
-  created() {
+  created () {
   },
   methods: {
     ...mapActions('global', ['setGlobalState']),
     update () {
-      this.setGlobalState({'user': {name: ('李四' + Math.round(Math.random() * 100))}})
+      this.setGlobalState({ user: { name: ('李四' + Math.round(Math.random() * 100)) } })
     }
   }
 }

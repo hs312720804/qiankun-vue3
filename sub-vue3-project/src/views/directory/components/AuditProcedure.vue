@@ -52,79 +52,79 @@
   </div>
 </template>
 <script setup lang="ts">
-  import { ref, computed, toRefs } from 'vue'
-  import { numberChinese, getEnumFieldOptions } from '@/utils/comm.ts'
-  import { evil, MAX_AUDIT_PROCESS } from '@/utils/consts.js'
-  import { Plus, Delete } from '@element-plus/icons-vue'
+import { ref, computed, toRefs } from 'vue'
+import { numberChinese, getEnumFieldOptions } from '@/utils/comm.ts'
+import { evil, MAX_AUDIT_PROCESS } from '@/utils/consts.js'
+import { Plus, Delete } from '@element-plus/icons-vue'
 
-  const props = defineProps({
-    id: {
-      required: true,
-      type: Number,
-      default: null
-    },
-    menu: {
-      required: true,
-      type: Object,
-      default () {
-        return { }
-      }
-    },
-    roles: {
-      type: Array,
-      default: () => []
-    },
-    processRoles: {
-      type: Array,
-      default: () => []
+const props = defineProps({
+  id: {
+    required: true,
+    type: Number,
+    default: null
+  },
+  menu: {
+    required: true,
+    type: Object,
+    default () {
+      return { }
     }
-  })
+  },
+  roles: {
+    type: Array,
+    default: () => []
+  },
+  processRoles: {
+    type: Array,
+    default: () => []
+  }
+})
 
-  const { menu, roles, processRoles } = toRefs(props)
-  console.log('role===', roles)
-  console.log('processRoles===', processRoles)
-  let modelList = ref([])
-  const apiJson = computed(() => {
-    return evil(menu.apiJson)
-  })
-  
-  const fieldsJson = (() => {
-    return evil(menu.fieldsJson)
-  })
-  const statusOptions = (() => {
-    return getEnumFieldOptions(fieldsJson.value, 'auditStatus')
-  })
+const { menu, roles, processRoles } = toRefs(props)
+console.log('role===', roles)
+console.log('processRoles===', processRoles)
+const modelList = ref([])
+const apiJson = computed(() => {
+  return evil(menu.value.apiJson)
+})
 
-  const statusText = (() => {
-    const textMap = {}
-    statusOptions.value.forEach(ele => {
-      textMap[ele.value] = ele.label
-    })
-    return textMap
+const fieldsJson = () => {
+  return evil(menu.value.fieldsJson)
+}
+const statusOptions = () => {
+  return getEnumFieldOptions(fieldsJson.value, 'auditStatus')
+}
+
+const statusText = () => {
+  const textMap = {}
+  statusOptions.value.forEach(ele => {
+    textMap[ele.value] = ele.label
   })
-  function getRoleById (roleId) {
-    return roles.value.find(ele => ele.id === roleId)
-  }
-  function addProcessRoles () {
-    processRoles.value.push({
-      auditLevel: processRoles.value.length + 1,
-      // id: undefined, // 自增ID
-      roleId: undefined,
-      roleName: ''
-    })
-  }
-  function delProcessRoles (index) {
-    // $delete(props.processRoles, index)
-    processRoles.value.splice(index, 1)
-  }
-  function changeProcessRoles (item, id) {
-    const role = getRoleById(id)
-    item.roleName = role.policyName
-  }
-  function getAvailableRole (id) {
-    const arr = processRoles.value.map(item => item.roleId)
-    return arr.includes(id)
-  }
+  return textMap
+}
+function getRoleById (roleId) {
+  return roles.value.find(ele => ele.id === roleId)
+}
+function addProcessRoles () {
+  processRoles.value.push({
+    auditLevel: processRoles.value.length + 1,
+    // id: undefined, // 自增ID
+    roleId: undefined,
+    roleName: ''
+  })
+}
+function delProcessRoles (index) {
+  // $delete(props.processRoles, index)
+  processRoles.value.splice(index, 1)
+}
+function changeProcessRoles (item, id) {
+  const role = getRoleById(id)
+  item.roleName = role.policyName
+}
+function getAvailableRole (id) {
+  const arr = processRoles.value.map(item => item.roleId)
+  return arr.includes(id)
+}
 // export default defineComponent({
 //   props: {
 //     roles: {

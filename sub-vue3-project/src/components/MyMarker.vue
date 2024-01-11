@@ -6,7 +6,7 @@
 // import { inject } from 'vue'
 
 export default {
-  setup() {
+  setup () {
     // const userLocation = inject('location', 'The Universe')
     // const userGeolocation = inject('geolocation')
     // const updateUserLocation = inject('updateLocation')
@@ -14,8 +14,6 @@ export default {
     // console.log('userGeolocation===',userGeolocation)
     // console.log('updateUserLocation===',updateUserLocation)
     // updateUserLocation()
-    
-
 
     return {
       // userLocation,
@@ -25,4 +23,3 @@ export default {
   }
 }
 </script>
-

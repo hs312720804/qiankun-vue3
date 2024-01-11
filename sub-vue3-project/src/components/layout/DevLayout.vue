@@ -44,6 +44,10 @@
             <el-icon><setting /></el-icon>
             <template #title>主页</template>
           </el-menu-item>
+          <el-menu-item index="/example" @click="getRouter('/example')">
+            <el-icon><setting /></el-icon>
+            <template #title>例子</template>
+          </el-menu-item>
         </el-menu>
       </el-aside>
 

@@ -11,11 +11,10 @@ function render () {
   // const { container } = props
   instance = new Vue({
     render: h => h(App),
-    store,
+    store
   }).$mount('#app')
 }
 if (!window.__POWERED_BY_QIANKUN__) {
-
   // 这里是子应用独立运行的环境，实现子应用的登录逻辑
   render()
 }
@@ -26,7 +25,6 @@ if (!window.__POWERED_BY_QIANKUN__) {
 export async function bootstrap () {
   console.log('[vue] vue app bootstraped')
 }
-
 
 /**
  * 应用每次进入都会调用 mount 方法，通常我们在这里触发应用的渲染方法
@@ -49,6 +47,6 @@ export async function unmount () {
 /**
  * 可选生命周期钩子，仅使用 loadMicroApp 方式加载微应用时生效
  */
-export async function update(props) {
-  console.log('update props', props);
+export async function update (props) {
+  console.log('update props', props)
 }

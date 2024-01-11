@@ -15,8 +15,8 @@ export const useGlobalStore = defineStore('global', {
     //   }
     // },
     setGlobalState (newState) {
-      this.$patch(state=> {
-        state = Object.assign(state, newState);
+      this.$patch(state => {
+        state = Object.assign(state, newState)
       })
 
       // if (this.props && this.props.setGlobalState) {
@@ -32,27 +32,24 @@ export const useStore = defineStore('myStore', {
     name: 'sasa',
     isAdmin: true,
     banners: undefined,
-    recommends: undefined,
+    recommends: undefined
   }),
   actions: {
-    add() {
+    add () {
       this.counter++
     },
-    incrementNum(num) {
+    incrementNum (num) {
       this.counter += num
     },
-    async fetchHomeMultidata() {
-      const res = await fetch("http://123.207.32.32:8000/home/multidata")
+    async fetchHomeMultidata () {
+      const res = await fetch('http://123.207.32.32:8000/home/multidata')
       const data = await res.json()
-	  
-      //得到数据后直接复制给state
+
+      // 得到数据后直接复制给state
       this.banners = data.data.banner.list
       this.recommends = data.data.recommend.list
-      
+
       return 'success'
     }
   }
 })
-
-
-

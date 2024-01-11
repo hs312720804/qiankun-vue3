@@ -27,12 +27,11 @@ function commonOperation (arr, handleTodo, handleAction) {
 
         },
         label
-      ),[
+      ), [
       ])
     })
   }
 }
-
 
 function stringHidden (prop, frontLen, endLen) {
   return ({ row }) => {
